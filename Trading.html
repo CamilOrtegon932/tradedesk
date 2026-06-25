@@ -1159,7 +1159,6 @@ async function saveTrade(){
   if(!document.getElementById('lotaje-display').dataset.val)calcLotaje();
   const lotaje=parseFloat(document.getElementById('lotaje-display').dataset.val)||0;
   const resultadoRaw=document.getElementById('t-resultado').value;
-  // WinAuto saves as 'Win', BE saves as 'BE' with $0
   const resultado=resultadoRaw==='WinAuto'?'Win':resultadoRaw;
   const gananciaVal=resultadoRaw==='BE'?0:(parseFloat(document.getElementById('t-ganancia').value)||0);
   const t={fecha,trader,activo,tipo:document.getElementById('t-tipo').value,entrada,sl,
@@ -1167,8 +1166,9 @@ async function saveTrade(){
     resultado:resultado||'',
     ganancia:resultado?gananciaVal:0,
     notas:document.getElementById('t-notas').value};
+  // Use the stored edit ID (Firebase string ID) to update existing doc
   const eid=document.getElementById('edit-id').value;
-  if(eid)t.id=eid;
+  if(eid) t.id=eid;
   await dbPut('trades',t);await loadData();closeModal('trade-modal');showToast('✅ Trade guardado');
 }
 
@@ -1385,6 +1385,7 @@ function renderJournal(){
     if(dl!==lastDate){html+=`<tr class="week-separator"><td colspan="13">${dl}</td></tr>`;lastDate=dl;}
     const rc=t.resultado==='Win'?'win-row':t.resultado==='Loss'?'loss-row':t.resultado==='BE'?'be-row':'';
     const pH=t.ganancia?`<span class="${t.resultado==='Loss'?'pnl-neg':'pnl-pos'}">${t.resultado==='Loss'?'-':'+'}$${Math.abs(t.ganancia).toFixed(2)}</span>`:'—';
+    const safeT=JSON.stringify(t).replace(/'/g,'&apos;');
     html+=`<tr class="${rc}">
       <td class="mono">${t.fecha}</td><td><b>${t.trader}</b></td>
       <td><span style="color:var(--gold);font-weight:600">${t.activo}</span></td>
@@ -1397,12 +1398,21 @@ function renderJournal(){
       <td>${pH}</td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;color:var(--text2)">${t.notas||''}</td>
       <td>
-        <button class="action-btn edit" onclick='openTradeModal(${JSON.stringify(t)})' title="Editar">✏️</button>
-        <button class="action-btn" onclick="deleteTrade('${t.id}')" title="Eliminar">🗑️</button>
+        <button class="action-btn edit" data-trade='${safeT}' title="Editar">✏️</button>
+        <button class="action-btn btn-del-trade" data-id="${t.id}" title="Eliminar">🗑️</button>
       </td>
     </tr>`;
   });
   tb.innerHTML=html;
+  // Attach event listeners after rendering
+  tb.querySelectorAll('.action-btn.edit').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      try{ openTradeModal(JSON.parse(btn.dataset.trade)); }catch(e){ showToast('⚠️ Error al abrir trade'); }
+    });
+  });
+  tb.querySelectorAll('.btn-del-trade').forEach(btn=>{
+    btn.addEventListener('click',()=>deleteTrade(btn.dataset.id));
+  });
 }
 
 // ===================== MENSUAL =====================
