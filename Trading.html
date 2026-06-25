@@ -987,6 +987,21 @@ window._fsdb = fsdb;
 // Expose profile helpers globally for Tracker and onclick handlers
 window.getActiveProfileId = getActiveProfileId;
 
+// Expose Tracker Firebase helpers
+window._ttSave = async function(periodos){
+  const profileId = getActiveProfileId();
+  await setDoc(doc(fsdb, `profiles/${profileId}/tracker/periodos`), {data: JSON.stringify(periodos)});
+};
+window._ttLoad = async function(){
+  const profileId = getActiveProfileId();
+  const snap = await getDoc(doc(fsdb, `profiles/${profileId}/tracker/periodos`));
+  if(snap.exists()){
+    const parsed = JSON.parse(snap.data().data||'[]');
+    return parsed.length ? parsed : null;
+  }
+  return null;
+};
+
 
 let trades=[],capitales=[],cierres=[],movimientos=[],capitalActual=1200;
 let sortColJ='fecha',sortDirJ=-1,selectedMonth=null,charts={},currentPct=7;
@@ -1153,7 +1168,7 @@ async function saveTrade(){
     ganancia:resultado?gananciaVal:0,
     notas:document.getElementById('t-notas').value};
   const eid=document.getElementById('edit-id').value;
-  if(eid)t.id=parseInt(eid);
+  if(eid)t.id=eid;
   await dbPut('trades',t);await loadData();closeModal('trade-modal');showToast('✅ Trade guardado');
 }
 
@@ -1383,7 +1398,7 @@ function renderJournal(){
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;color:var(--text2)">${t.notas||''}</td>
       <td>
         <button class="action-btn edit" onclick='openTradeModal(${JSON.stringify(t)})' title="Editar">✏️</button>
-        <button class="action-btn" onclick="deleteTrade(${t.id})" title="Eliminar">🗑️</button>
+        <button class="action-btn" onclick="deleteTrade('${t.id}')" title="Eliminar">🗑️</button>
       </td>
     </tr>`;
   });
@@ -1584,7 +1599,7 @@ function renderCapital(){
       <div style="text-align:right;flex-shrink:0">
         <div class="ct-amount" style="color:${isR?'var(--orange)':'var(--accent)'}">${isR?'-':'+'}$${m.monto.toFixed(2)}</div>
         <div class="ct-balance">Capital post: $${m.capitalPost.toLocaleString()}</div>
-        <button class="action-btn" onclick="deleteMovimiento(${m.id})" style="margin-top:3px" title="Eliminar">🗑️</button>
+        <button class="action-btn" onclick="deleteMovimiento('${m.id}')" style="margin-top:3px" title="Eliminar">🗑️</button>
       </div>
     </div>`;
   }).join('');
@@ -1799,36 +1814,34 @@ function splitPL(col,pl,capC,capP){
 function colTot(rows,key){return(rows[key]||[]).reduce((s,r)=>s+(parseFloat(r.gp)||0),0);}
 
 function save(){
-  // Save tracker periodos to Firestore under the active profile
-  const profileId = typeof getActiveProfileId === 'function' ? getActiveProfileId() : 'profile_personal';
-  import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js").then(({getFirestore,doc,setDoc,getDoc})=>{
-    // fsdb is defined in the main module scope — access via window
-    setDoc(doc(window._fsdb, `profiles/${profileId}/tracker/periodos`), {data: JSON.stringify(periodos)})
-      .catch(e=>console.warn('Tracker save error:',e));
-  });
+  // Save tracker periodos to Firestore via helpers exposed by main module
+  if(window._ttSave){
+    window._ttSave(periodos).catch(e=>console.warn('Tracker save error:',e));
+  } else {
+    // Fallback to localStorage if Firebase not ready yet
+    localStorage.setItem('tt_v2',JSON.stringify(periodos));
+  }
   const t=document.getElementById('tt-toast');
   t.classList.add('on');clearTimeout(t._tt);t._tt=setTimeout(()=>t.classList.remove('on'),1600);
 }
 function load(){
-  // Load is handled async via TT.init() which calls loadFromFirebase()
   if(!periodos.length)periodos=[newPeriodo(1000,100)];
 }
 async function loadFromFirebase(){
-  const profileId = typeof getActiveProfileId === 'function' ? getActiveProfileId() : 'profile_personal';
-  try{
-    const {getFirestore,doc,getDoc}=await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js");
-    const snap = await getDoc(doc(window._fsdb, `profiles/${profileId}/tracker/periodos`));
-    if(snap.exists()){
-      const parsed = JSON.parse(snap.data().data||'[]');
-      if(parsed.length) periodos=parsed;
-      else periodos=[newPeriodo(1000,100)];
-    } else {
-      periodos=[newPeriodo(1000,100)];
+  if(window._ttLoad){
+    try{
+      const data = await window._ttLoad();
+      if(data && data.length) periodos = data;
+      else periodos = [newPeriodo(1000,100)];
+    }catch(e){
+      console.warn('Tracker load error:',e);
+      const d=localStorage.getItem('tt_v2');
+      if(d){try{periodos=JSON.parse(d);}catch(e2){periodos=[];}}
+      if(!periodos.length)periodos=[newPeriodo(1000,100)];
     }
-  }catch(e){
-    console.warn('Tracker load error:',e);
+  } else {
     const d=localStorage.getItem('tt_v2');
-    if(d){try{periodos=JSON.parse(d);}catch(e2){periodos=[];}}
+    if(d){try{periodos=JSON.parse(d);}catch(e){periodos=[];}}
     if(!periodos.length)periodos=[newPeriodo(1000,100)];
   }
 }
