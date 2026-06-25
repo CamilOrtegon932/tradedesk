@@ -2042,11 +2042,14 @@ function splitPL(col,pl,capC,capP){
 function colTot(rows,key){return(rows[key]||[]).reduce((s,r)=>s+(parseFloat(r.gp)||0),0);}
 
 function save(){
-  // Save tracker periodos to Firestore via helpers exposed by main module
-  if(window._ttSave){
-    window._ttSave(periodos).catch(e=>console.warn('Tracker save error:',e));
+  // Save via Firebase directly
+  const profileId = window.getActiveProfileId ? window.getActiveProfileId() : 'profile_personal';
+  if(window._fsdb){
+    import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js").then(({doc,setDoc})=>{
+      setDoc(doc(window._fsdb, `profiles/${profileId}/tracker/periodos`), {data: JSON.stringify(periodos)})
+        .catch(e=>console.warn('Tracker save error:',e));
+    });
   } else {
-    // Fallback to localStorage if Firebase not ready yet
     localStorage.setItem('tt_v2',JSON.stringify(periodos));
   }
   const t=document.getElementById('tt-toast');
@@ -2056,22 +2059,29 @@ function load(){
   if(!periodos.length)periodos=[newPeriodo(1000,100)];
 }
 async function loadFromFirebase(){
-  if(window._ttLoad){
-    try{
-      const data = await window._ttLoad();
-      if(data && data.length) periodos = data;
-      else periodos = [newPeriodo(1000,100)];
-    }catch(e){
-      console.warn('Tracker load error:',e);
-      const d=localStorage.getItem('tt_v2');
-      if(d){try{periodos=JSON.parse(d);}catch(e2){periodos=[];}}
-      if(!periodos.length)periodos=[newPeriodo(1000,100)];
-    }
-  } else {
-    const d=localStorage.getItem('tt_v2');
-    if(d){try{periodos=JSON.parse(d);}catch(e){periodos=[];}}
-    if(!periodos.length)periodos=[newPeriodo(1000,100)];
+  const profileId = window.getActiveProfileId ? window.getActiveProfileId() : 'profile_personal';
+  // Wait up to 3s for Firebase to be ready
+  let attempts = 0;
+  while(!window._fsdb && attempts < 30){
+    await new Promise(r=>setTimeout(r,100));
+    attempts++;
   }
+  if(window._fsdb){
+    try{
+      const {doc,getDoc}=await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js");
+      const snap = await getDoc(doc(window._fsdb, `profiles/${profileId}/tracker/periodos`));
+      if(snap.exists()){
+        const parsed = JSON.parse(snap.data().data||'[]');
+        if(parsed.length){ periodos=parsed; return; }
+      }
+    }catch(e){
+      console.warn('Tracker Firebase load error:',e);
+    }
+  }
+  // Fallback to localStorage
+  const d=localStorage.getItem('tt_v2');
+  if(d){try{periodos=JSON.parse(d);}catch(e){periodos=[];}}
+  if(!periodos.length)periodos=[newPeriodo(1000,100)];
 }
 function clearAll(){
   if(!confirm('¿Limpiar todos los períodos del mes?'))return;
