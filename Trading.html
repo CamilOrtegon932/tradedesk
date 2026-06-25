@@ -2275,8 +2275,8 @@ function updCap(pid,field,val){
 }
 
 function addPeriodo(){
-  const last=periodos[periodos.length-1];
-  periodos.push(newPeriodo(last.capC,last.capP));
+  const last=periodos.length ? periodos[periodos.length-1] : null;
+  periodos.push(newPeriodo(last?last.capC:1000, last?last.capP:100));
   save();renderAll();
   setTimeout(()=>document.getElementById('sec-tracker').scrollTop=99999,100);
 }
@@ -2394,6 +2394,7 @@ window.TT={
   init:async function(){
     console.log('[Tracker] init called, _ttLoad available:', !!window._ttLoad);
     await loadFromFirebase();
+    if(!periodos.length) periodos=[newPeriodo(1000,100)];
     console.log('[Tracker] loaded periodos:', periodos.length);
     renderAll();
   }
