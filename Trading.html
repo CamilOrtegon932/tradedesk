@@ -329,8 +329,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
       <div class="chart-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
         <span>💰 PnL Acumulado</span>
         <div style="display:flex;align-items:center;gap:8px;">
-          <input type="month" id="pnl-mes-filter" class="filter-input" style="font-size:11px;padding:4px 8px;" title="Filtrar por mes" onchange="renderCharts(window._lastTR,window._lastCL,window._lastClosed)">
-          <button class="btn btn-ghost" style="font-size:11px;padding:4px 10px;" onclick="document.getElementById('pnl-mes-filter').value='';renderCharts(window._lastTR,window._lastCL,window._lastClosed)">✕</button>
+          <input type="month" id="pnl-mes-filter" class="filter-input" style="font-size:11px;padding:4px 8px;" title="Filtrar por mes" onchange="renderDashboard()">
+          <button class="btn btn-ghost" style="font-size:11px;padding:4px 10px;" onclick="document.getElementById('pnl-mes-filter').value='';renderDashboard()">✕</button>
         </div>
       </div>
       <canvas id="chart-pnl" height="340"></canvas>
@@ -1998,6 +1998,7 @@ Object.assign(window,{
   exportData, importData, resetAllData,
   setPreset, updateSlider,
   renderInversiones,
+  selectMonth, renderCharts, renderDashboard,
 });
 
 // Show loading state while Firebase initializes
