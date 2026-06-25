@@ -2402,15 +2402,22 @@ window.TT={
 
 })();
 
-// Init Tracker when its section is first shown
+// Init Tracker on page load (always, regardless of which section is active)
+// Also re-init when navigating to tracker section after a profile switch
 (function(){
   let ttInit=false;
+
+  // Always init on page load after a short delay to let Firebase module load
+  setTimeout(()=>{
+    if(!ttInit){ ttInit=true; window.TT.init(); }
+  }, 1500);
+
+  // Also re-init when navigating to tracker
   const origShow=window.showSection;
   window.showSection=function(name){
     origShow(name);
-    if(name==='tracker'&&!ttInit){ttInit=true;window.TT.init();}
+    if(name==='tracker'&&!ttInit){ ttInit=true; window.TT.init(); }
   };
-  // Also init if loaded directly on tracker section (not needed here, but safe)
 })();
 </script>
 </body>
