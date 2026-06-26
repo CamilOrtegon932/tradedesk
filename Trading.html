@@ -38,27 +38,39 @@
 
 /* ── LIGHT MODE ── */
 [data-theme="light"] {
-  --bg:#f0f4f8; --bg2:#ffffff; --bg3:#e4eaf2; --bg4:#d5dfe9;
-  --border:#c5d0dc; --border2:#adbccc;
-  --accent:#0088bb; --accent2:#006699;
-  --green:#00875a; --red:#d32f2f; --gold:#b07800; --orange:#c84b00;
-  --text:#0d1b2a; --text2:#3d5166; --text3:#6b8299;
-  --win-bg:rgba(0,135,90,0.08); --loss-bg:rgba(211,47,47,0.08); --be-bg:rgba(176,120,0,0.09);
-  --header-bg:rgba(240,244,248,0.97);
+  --bg:#e8edf5;        /* fondo principal — gris azulado medio, no blanco */
+  --bg2:#f2f5fa;       /* cards — ligeramente más claro que el fondo */
+  --bg3:#dde3ed;       /* inputs, hover — más oscuro que fondo */
+  --bg4:#cfd7e4;       /* bordes de cards, separadores fuertes */
+  --border:#b8c4d4;    /* bordes normales */
+  --border2:#9aabbe;   /* bordes destacados */
+  --accent:#0077aa;    /* cyan más oscuro para buen contraste */
+  --accent2:#005f8a;
+  --green:#1a7a4a;     /* verde oscuro legible */
+  --red:#c0392b;       /* rojo oscuro */
+  --gold:#9a6e00;      /* dorado oscuro */
+  --orange:#b84400;
+  --text:#0a1520;      /* texto principal — casi negro azulado */
+  --text2:#2d4055;     /* texto secundario — azul oscuro */
+  --text3:#5a7085;     /* texto terciario — gris azulado */
+  --win-bg:rgba(26,122,74,0.1);
+  --loss-bg:rgba(192,57,43,0.1);
+  --be-bg:rgba(154,110,0,0.1);
+  --header-bg:rgba(220,228,238,0.97);
   --tooltip-bg:#1c2534;
-  --point-border:#e0e8f0;
-  --overlay-bg:rgba(100,130,160,0.5);
-  --profile-bg:#ffffff;
+  --point-border:#dde3ed;
+  --overlay-bg:rgba(60,90,120,0.55);
+  --profile-bg:#f2f5fa;
   /* Finanzas light */
-  --fin-bg:#f0f4f8;
-  --fin-g1:#ffffff; --fin-g2:#f4f7fb; --fin-g3:#e8eef5; --fin-g4:#dce5ee;
-  --fin-b1:rgba(0,0,0,0.06); --fin-b2:rgba(0,0,0,0.10); --fin-b3:rgba(0,0,0,0.15);
-  --fin-t1:#0d1b2a; --fin-t2:rgba(13,27,42,0.6); --fin-t3:rgba(13,27,42,0.38);
-  --fin-green:#00875a; --fin-red:#d32f2f; --fin-yellow:#b07800;
-  --fin-blue:#0077cc; --fin-purple:#7c3aed; --fin-orange:#c84b00; --fin-teal:#0d7d6b;
-  --fin-toast-bg:rgba(255,255,255,0.97);
-  --fin-modal-bg:#ffffff;
-  --fin-overlay-bg:rgba(100,130,160,0.5);
+  --fin-bg:#e8edf5;
+  --fin-g1:#f2f5fa; --fin-g2:#eaeff7; --fin-g3:#dde3ed; --fin-g4:#cfd7e4;
+  --fin-b1:rgba(10,21,32,0.07); --fin-b2:rgba(10,21,32,0.12); --fin-b3:rgba(10,21,32,0.18);
+  --fin-t1:#0a1520; --fin-t2:rgba(10,21,32,0.62); --fin-t3:rgba(10,21,32,0.40);
+  --fin-green:#1a7a4a; --fin-red:#c0392b; --fin-yellow:#9a6e00;
+  --fin-blue:#0066bb; --fin-purple:#6b21d4; --fin-orange:#b84400; --fin-teal:#0a6b5e;
+  --fin-toast-bg:#f2f5fa;
+  --fin-modal-bg:#f2f5fa;
+  --fin-overlay-bg:rgba(60,90,120,0.55);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
@@ -348,6 +360,20 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--t1);
 }
+/* Light mode extra depth */
+[data-theme="light"] .card { box-shadow: 0 2px 8px rgba(10,21,32,0.08), 0 1px 2px rgba(10,21,32,0.05); }
+[data-theme="light"] .trader-card { box-shadow: 0 2px 8px rgba(10,21,32,0.07); }
+[data-theme="light"] .chart-wrap { box-shadow: 0 2px 8px rgba(10,21,32,0.07); }
+[data-theme="light"] table th { background: var(--bg3); color: var(--text2); }
+[data-theme="light"] table td { border-color: var(--border); }
+[data-theme="light"] .week-separator td { background: var(--bg3); color: var(--text2); }
+[data-theme="light"] .nav-btn { color: var(--text2); }
+[data-theme="light"] .nav-btn.active { background: var(--bg3); color: var(--text); }
+[data-theme="light"] .modal { box-shadow: 0 8px 40px rgba(10,21,32,0.15); }
+[data-theme="light"] .profile-box { box-shadow: 0 8px 40px rgba(10,21,32,0.15); }
+[data-theme="light"] input, [data-theme="light"] select { background: var(--bg2); color: var(--text); border-color: var(--border2); }
+[data-theme="light"] #sec-finanzas .sc { box-shadow: 0 2px 8px rgba(10,21,32,0.08); }
+[data-theme="light"] #sec-finanzas .overlay { background: var(--fin-overlay-bg); }
 
 #sec-finanzas ::-webkit-scrollbar { width: 3px; height: 3px; }
 #sec-finanzas ::-webkit-scrollbar-track { background: transparent; }
