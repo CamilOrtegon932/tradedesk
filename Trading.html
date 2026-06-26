@@ -285,6 +285,417 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   .logo-text{font-size:14px;}
   .capital-chip .cc-val{font-size:12px;}
 }
+
+/* ===== FINANZAS (scoped) ===== */
+
+#sec-finanzas {
+  --bg: #08080d;
+  --g1: #0e0e18;
+  --g2: #13131f;
+  --g3: #1a1a28;
+  --g4: #222233;
+  --b1: rgba(255,255,255,0.07);
+  --b2: rgba(255,255,255,0.12);
+  --b3: rgba(255,255,255,0.18);
+  --t1: #ffffff;
+  --t2: rgba(255,255,255,0.55);
+  --t3: rgba(255,255,255,0.28);
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --blue: #60a5fa;
+  --purple: #c084fc;
+  --orange: #fb923c;
+  --teal: #2dd4bf;
+  --rad: 18px;
+  --rad-s: 10px;
+  --rad-xs: 7px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; -webkit-font-smoothing: antialiased; }
+body {
+  background: var(--bg);
+  color: var(--t1);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(96,165,250,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 30% at 80% 80%, rgba(192,132,252,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 60% 40%, rgba(74,222,128,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+#sec-finanzas ::-webkit-scrollbar { width: 3px; height: 3px; }
+#sec-finanzas ::-webkit-scrollbar-track { background: transparent; }
+#sec-finanzas ::-webkit-scrollbar-thumb { background: var(--b2); border-radius: 2px; }
+
+/* ── GLASS MIXIN ── */
+#sec-finanzas .glass {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--b1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── HEADER ── */
+#sec-finanzas .hdr {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,8,13,0.75);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid var(--b1);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 22px; height: 60px;
+}
+#sec-finanzas .logo {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800; font-size: 17px;
+  letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 10px;
+}
+#sec-finanzas .logo-badge {
+  background: linear-gradient(135deg, #60a5fa, #c084fc);
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+#sec-finanzas .logo-text { background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.7) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#sec-finanzas .mnav { display: flex; align-items: center; gap: 6px; }
+#sec-finanzas .mbtn {
+  background: var(--b1); border: 1px solid var(--b1); color: var(--t2);
+  width: 32px; height: 32px; border-radius: var(--rad-xs);
+  cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+#sec-finanzas .mbtn:hover { background: var(--b2); color: var(--t1); border-color: var(--b2); }
+#sec-finanzas .mlbl {
+  font-family: 'Sora', sans-serif; font-weight: 700; font-size: 14px;
+  min-width: 140px; text-align: center; color: var(--t1);
+  letter-spacing: -0.2px;
+}
+
+/* ── MAIN ── */
+#sec-finanzas .main { max-width: 1300px; margin: 0 auto; padding: 22px 18px; display: flex; flex-direction: column; gap: 18px; position: relative; z-index: 1; }
+
+/* ── SUMBAR ── */
+#sec-finanzas .sumbar { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+@media(max-width:900px){ .sumbar { grid-template-columns: repeat(3,1fr); } }
+@media(max-width:500px){ .sumbar { grid-template-columns: repeat(2,1fr); } }
+
+#sec-finanzas .sc {
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--b1);
+  border-radius: var(--rad);
+  padding: 16px 18px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+#sec-finanzas .sc:hover { border-color: var(--b2); transform: translateY(-1px); }
+#sec-finanzas .sc-glow {
+  position: absolute; top: -20px; right: -20px;
+  width: 80px; height: 80px; border-radius: 50%;
+  opacity: 0.15; filter: blur(20px);
+}
+#sec-finanzas .sc-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); margin-bottom: 8px; }
+#sec-finanzas .sc-val { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.5px; line-height: 1; }
+#sec-finanzas .sc-sub { font-size: 10px; color: var(--t3); margin-top: 5px; font-weight: 500; }
+
+/* ── TABS ── */
+#sec-finanzas .tabs-wrap {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--b1);
+  border-radius: var(--rad);
+  overflow: hidden;
+}
+#sec-finanzas .tabs-nav {
+  display: flex; border-bottom: 1px solid var(--b1);
+  overflow-x: auto; padding: 0 4px;
+  gap: 2px;
+}
+#sec-finanzas .tabs-nav::-webkit-scrollbar { height: 0; }
+#sec-finanzas .tab-btn {
+  flex-shrink: 0;
+  background: transparent; border: none; border-radius: var(--rad-xs);
+  color: var(--t3);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 12px 16px; cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  margin: 6px 0;
+}
+#sec-finanzas .tab-btn:hover { color: var(--t2); background: var(--b1); }
+#sec-finanzas .tab-btn.active {
+  color: var(--t1);
+  background: var(--b2);
+}
+#sec-finanzas .tab-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+#sec-finanzas .tab-pane { display: none; }
+#sec-finanzas .tab-pane.active { display: flex; flex-direction: column; }
+
+/* ── PANE HEADER ── */
+#sec-finanzas .pane-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--b1);
+}
+#sec-finanzas .pane-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t2); }
+#sec-finanzas .pane-total { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.3px; }
+#sec-finanzas .add-btn {
+  background: var(--b1); border: 1px solid var(--b1); color: var(--t2);
+  width: 30px; height: 30px; border-radius: var(--rad-xs);
+  cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; line-height: 1; font-weight: 300;
+}
+#sec-finanzas .add-btn:hover { background: var(--b2); color: var(--t1); border-color: var(--b2); }
+
+/* ── SCROLL LIST ── */
+#sec-finanzas .scroll-list { max-height: 300px; overflow-y: auto; }
+
+/* ── TABLE ── */
+#sec-finanzas .tbl { width: 100%; border-collapse: collapse; }
+#sec-finanzas .tbl th {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--t3); padding: 10px 20px; text-align: left;
+  border-bottom: 1px solid var(--b1); position: sticky; top: 0;
+  background: rgba(13,13,20,0.95); z-index: 1;
+}
+#sec-finanzas .tbl td { padding: 10px 20px; font-size: 12px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.04); }
+#sec-finanzas .tbl tr:last-child td { border-bottom: none; }
+#sec-finanzas .tbl tr:hover td { background: var(--b1); }
+#sec-finanzas .tr { text-align: right; }
+#sec-finanzas .pos { color: var(--green); }
+#sec-finanzas .neg { color: var(--red); }
+#sec-finanzas .dt { color: var(--t3); font-size: 11px; }
+#sec-finanzas .xbtn { background: none; border: none; color: var(--t3); cursor: pointer; font-size: 14px; padding: 2px 4px; transition: color 0.15s; border-radius: 4px; }
+#sec-finanzas .xbtn:hover { color: var(--red); background: rgba(248,113,113,0.1); }
+
+/* ── FIJOS ── */
+#sec-finanzas .fijo-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 20px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px; font-weight: 500; transition: background 0.1s;
+}
+#sec-finanzas .fijo-row:last-child { border-bottom: none; }
+#sec-finanzas .fijo-row:hover { background: var(--b1); }
+#sec-finanzas .chk {
+  width: 20px; height: 20px; border: 1.5px solid var(--b2); border-radius: 6px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.15s;
+}
+#sec-finanzas .chk.on { background: var(--green); border-color: var(--green); }
+#sec-finanzas .chk.on::after { content: '✓'; font-size: 11px; color: #000; font-weight: 800; }
+
+/* ── REPA ── */
+#sec-finanzas .repa-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.1s;
+}
+#sec-finanzas .repa-row:last-child { border-bottom: none; }
+#sec-finanzas .repa-row:hover { background: var(--b1); }
+#sec-finanzas .repa-net { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -0.3px; }
+#sec-finanzas .repa-sub { font-size: 10px; font-weight: 600; color: var(--t3); margin-top: 2px; letter-spacing: 0.02em; }
+
+/* ── TRADING ── */
+#sec-finanzas .trading-block { padding: 32px 24px; }
+#sec-finanzas .trading-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); margin-bottom: 10px; }
+#sec-finanzas .trading-val {
+  font-family: 'Sora', sans-serif; font-weight: 800; font-size: 52px;
+  color: var(--yellow); letter-spacing: -2px; line-height: 1;
+  margin-bottom: 8px;
+}
+#sec-finanzas .trading-nota { font-size: 12px; color: var(--t3); font-weight: 500; margin-bottom: 16px; }
+#sec-finanzas .edit-btn {
+  background: var(--b1); border: 1px solid var(--b1); color: var(--t2);
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 700;
+  padding: 8px 16px; border-radius: var(--rad-xs); cursor: pointer; transition: all 0.15s;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+#sec-finanzas .edit-btn:hover { background: var(--b2); color: var(--t1); border-color: var(--b2); }
+
+/* ── PRESTAMOS ── */
+#sec-finanzas .prest-row { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+#sec-finanzas .prest-row:last-child { border-bottom: none; }
+#sec-finanzas .prest-name {
+  font-size: 14px; font-weight: 700; margin-bottom: 6px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+#sec-finanzas .prest-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--t3); font-weight: 600; margin-bottom: 8px; }
+#sec-finanzas .pbar { height: 4px; background: var(--b1); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+#sec-finanzas .pfill { height: 100%; border-radius: 2px; transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+#sec-finanzas .prest-footer { display: flex; justify-content: space-between; align-items: center; }
+#sec-finanzas .badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+#sec-finanzas .bg { background: rgba(74,222,128,0.12); color: var(--green); }
+#sec-finanzas .bw { background: rgba(251,191,36,0.12); color: var(--yellow); }
+
+/* ── CIERRE ── */
+#sec-finanzas .cierre-pane { padding: 24px 20px; display: flex; flex-direction: column; gap: 18px; }
+#sec-finanzas .cierre-top {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(96,165,250,0.06); border: 1px solid rgba(96,165,250,0.15);
+  border-radius: var(--rad-s); padding: 14px 18px;
+  font-size: 12px; font-weight: 600; color: rgba(96,165,250,0.8);
+}
+#sec-finanzas .ci-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media(max-width:520px){ .ci-grid { grid-template-columns: 1fr; } }
+#sec-finanzas .ci-block { display: flex; flex-direction: column; gap: 8px; }
+#sec-finanzas .ci-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); }
+#sec-finanzas .ci-input {
+  background: var(--b1); border: 1px solid var(--b1); color: var(--t1);
+  border-radius: var(--rad-s); padding: 12px 14px;
+  font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700;
+  outline: none; transition: border-color 0.2s, background 0.2s; width: 100%;
+}
+#sec-finanzas .ci-input:focus { border-color: rgba(96,165,250,0.5); background: var(--b2); }
+#sec-finanzas .cierre-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; }
+#sec-finanzas .cierre-card {
+  background: var(--b1); border: 1px solid var(--b1);
+  border-radius: var(--rad-s); padding: 18px 18px;
+  transition: border-color 0.2s;
+}
+#sec-finanzas .cierre-card:hover { border-color: var(--b2); }
+#sec-finanzas .cc-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); margin-bottom: 8px; }
+#sec-finanzas .cc-val { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.8px; line-height: 1.1; }
+#sec-finanzas .cc-sub { font-size: 10px; color: var(--t3); font-weight: 600; margin-top: 5px; }
+#sec-finanzas .desglose { background: var(--b1); border: 1px solid var(--b1); border-radius: var(--rad-s); padding: 16px 18px; }
+#sec-finanzas .des-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); margin-bottom: 12px; }
+#sec-finanzas .des-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; font-weight: 600; }
+#sec-finanzas .des-row:last-child { border-bottom: none; font-size: 13px; font-weight: 800; padding-top: 10px; }
+#sec-finanzas .des-row span:first-child { color: var(--t2); }
+
+/* ── CIERRE V2 ── */
+#sec-finanzas .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 10px; }
+#sec-finanzas .kpi-card {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--b1);
+  border-radius: var(--rad-s); padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+#sec-finanzas .kpi-card:hover { border-color: var(--b2); }
+#sec-finanzas .kpi-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); margin-bottom: 6px; }
+#sec-finanzas .kpi-val { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.5px; line-height: 1; }
+#sec-finanzas .kpi-sub { font-size: 10px; color: var(--t3); font-weight: 600; margin-top: 4px; }
+#sec-finanzas .cierre-section { display: flex; flex-direction: column; gap: 6px; }
+#sec-finanzas .cierre-section-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--t3); padding-bottom: 6px; border-bottom: 1px solid var(--b1); }
+#sec-finanzas .cf-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 12px; font-weight: 600; }
+#sec-finanzas .cf-row:last-child { border-bottom: none; font-weight: 800; font-size: 13px; }
+#sec-finanzas .cf-row span:first-child { color: var(--t2); }
+#sec-finanzas .regla-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 8px 0; gap: 2px; }
+#sec-finanzas .rb-seg { height: 100%; border-radius: 2px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+#sec-finanzas .regla-legend { display: flex; gap: 12px; flex-wrap: wrap; }
+#sec-finanzas .rl-item { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; color: var(--t2); }
+#sec-finanzas .rl-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+#sec-finanzas .cierre-cerrado-banner {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2);
+  border-radius: var(--rad-s); padding: 14px 18px; font-size: 12px; font-weight: 700; color: var(--green);
+}
+#sec-finanzas .ahorro-bar-wrap { background: var(--b1); border-radius: 4px; height: 8px; overflow: hidden; margin-top: 6px; }
+#sec-finanzas .ahorro-bar-fill { height: 100%; border-radius: 4px; transition: width 0.7s cubic-bezier(0.34,1.56,0.64,1); }
+#sec-finanzas .chart-pane { padding: 22px 20px; display: flex; flex-direction: column; gap: 20px; }
+#sec-finanzas .chart-wrap { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+#sec-finanzas .legend { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 180px; }
+#sec-finanzas .leg-row { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; }
+#sec-finanzas .leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+#sec-finanzas .leg-name { flex: 1; color: var(--t2); }
+#sec-finanzas .leg-pct { font-weight: 800; }
+#sec-finanzas .leg-val { font-size: 10px; color: var(--t3); }
+#sec-finanzas .bars-section { display: flex; flex-direction: column; gap: 12px; }
+#sec-finanzas .bar-row { display: flex; flex-direction: column; gap: 6px; }
+#sec-finanzas .bar-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; }
+#sec-finanzas .bar-label span:last-child { color: var(--t3); font-weight: 600; }
+#sec-finanzas .bar-bg { height: 7px; background: var(--b1); border-radius: 4px; overflow: hidden; }
+#sec-finanzas .bar-fill { height: 100%; border-radius: 4px; transition: width 0.7s cubic-bezier(0.34,1.56,0.64,1); }
+
+/* ── PANE BOT ── */
+#sec-finanzas .pane-bot {
+  padding: 10px 20px; border-top: 1px solid var(--b1);
+  background: rgba(255,255,255,0.02);
+  display: flex; justify-content: space-between; align-items: center;
+}
+#sec-finanzas .pane-bot-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); }
+#sec-finanzas .pane-bot-val { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: -0.3px; }
+
+/* ── EMPTY ── */
+#sec-finanzas .empty { padding: 36px 20px; text-align: center; color: var(--t3); font-size: 12px; font-weight: 600; }
+#sec-finanzas .empty-ico { font-size: 28px; margin-bottom: 10px; display: block; }
+
+/* ── MODAL ── */
+#sec-finanzas .overlay {
+  position: fixed; inset: 0;
+  background: rgba(4,4,8,0.82);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+#sec-finanzas .overlay.open { opacity: 1; pointer-events: all; }
+#sec-finanzas .modal {
+  background: rgba(20,20,32,0.95);
+  border: 1px solid var(--b2);
+  border-radius: 22px; width: 100%; max-width: 400px; overflow: hidden;
+  transform: translateY(16px) scale(0.98);
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset;
+}
+#sec-finanzas .overlay.open .modal { transform: translateY(0) scale(1); }
+#sec-finanzas .mhdr {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 22px; border-bottom: 1px solid var(--b1);
+}
+#sec-finanzas .mtitle { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.3px; }
+#sec-finanzas .mclose {
+  background: var(--b1); border: none; color: var(--t2); font-size: 16px;
+  cursor: pointer; width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+#sec-finanzas .mclose:hover { background: var(--b2); color: var(--t1); }
+#sec-finanzas .mbody { padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+#sec-finanzas .field { display: flex; flex-direction: column; gap: 7px; }
+#sec-finanzas .field label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); }
+#sec-finanzas .field input, #sec-finanzas .field select {
+  background: var(--b1); border: 1px solid var(--b1); color: var(--t1);
+  border-radius: var(--rad-s); padding: 12px 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600;
+  outline: none; transition: border-color 0.2s, background 0.2s; width: 100%;
+}
+#sec-finanzas .field input:focus { border-color: rgba(96,165,250,0.5); background: var(--b2); }
+#sec-finanzas .mfoot { padding: 16px 22px; border-top: 1px solid var(--b1); display: flex; gap: 10px; }
+#sec-finanzas .bprim {
+  flex: 1; background: linear-gradient(135deg, rgba(96,165,250,0.9), rgba(192,132,252,0.9));
+  color: #fff; border: none; border-radius: var(--rad-s); padding: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 13px;
+  cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em;
+  transition: opacity 0.15s;
+}
+#sec-finanzas .bprim:hover { opacity: 0.88; }
+#sec-finanzas .bsec {
+  flex: 1; background: transparent; color: var(--t3); border: 1px solid var(--b1);
+  border-radius: var(--rad-s); padding: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.06em;
+}
+#sec-finanzas .bsec:hover { border-color: var(--b2); color: var(--t2); }
+
+/* ── TOAST ── */
+#sec-finanzas .toast {
+  position: fixed; bottom: 22px; right: 22px;
+  background: rgba(20,20,32,0.95); border: 1px solid var(--b2);
+  color: var(--t1); padding: 11px 18px; border-radius: var(--rad-s);
+  font-size: 12px; font-weight: 700; z-index: 999;
+  opacity: 0; transform: translateY(10px); transition: all 0.25s; pointer-events: none;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+#sec-finanzas .toast.show { opacity: 1; transform: translateY(0); }
+
 </style>
 </head>
 <body>
@@ -519,6 +930,149 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     </div>
 
   </div>
+</div>
+
+
+<!-- ========== FINANZAS SECTION ========== -->
+<div id="sec-finanzas" class="section" style="display:none">
+
+<!-- Month navigator bar -->
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 24px 0;flex-wrap:wrap;gap:8px;">
+  <h2 style="font-size:20px;font-weight:700;color:var(--text)">💳 Finanzas Personal</h2>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="btn btn-ghost" onclick="cmo(-1)" style="padding:6px 14px;font-size:16px;">‹</button>
+    <div id="mlbl" style="font-size:14px;font-weight:600;color:var(--text);min-width:130px;text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;"></div>
+    <button class="btn btn-ghost" onclick="cmo(1)" style="padding:6px 14px;font-size:16px;">›</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SUMBAR -->
+  <div class="sumbar" id="sumbar"></div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="showTab('repa',this)"><span class="tab-dot" style="background:var(--blue)"></span>REPA</button>
+      <button class="tab-btn" onclick="showTab('fijos',this)"><span class="tab-dot" style="background:var(--orange)"></span>Pagos Fijos</button>
+      <button class="tab-btn" onclick="showTab('ingresos',this)"><span class="tab-dot" style="background:var(--green)"></span>Ingresos</button>
+      <button class="tab-btn" onclick="showTab('gastos',this)"><span class="tab-dot" style="background:var(--red)"></span>Gastos</button>
+      <button class="tab-btn" onclick="showTab('prestamos',this)"><span class="tab-dot" style="background:var(--purple)"></span>Préstamos</button>
+      <button class="tab-btn" onclick="showTab('trading',this)"><span class="tab-dot" style="background:var(--yellow)"></span>Trading</button>
+      <button class="tab-btn" onclick="showTab('cierre',this)"><span class="tab-dot" style="background:var(--teal)"></span>Cierre</button>
+      <button class="tab-btn" onclick="showTab('grafico',this)"><span class="tab-dot" style="background:var(--t2)"></span>Gráfico</button>
+    </div>
+
+    <div class="tabs-content">
+
+      <!-- REPA -->
+      <div class="tab-pane active" id="tab-repa">
+        <div class="pane-hdr">
+          <span class="pane-title">REPA — DiDi + Rappi</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="pane-total" id="repaT" style="color:var(--blue)">$0</span>
+            <button class="add-btn" onclick="om('repa')">+</button>
+          </div>
+        </div>
+        <div class="scroll-list" id="repaL"><div class="empty"><span class="empty-ico">🛵</span>Sin registros este mes</div></div>
+      </div>
+
+      <!-- FIJOS -->
+      <div class="tab-pane" id="tab-fijos">
+        <div class="pane-hdr">
+          <span class="pane-title">Pagos Fijos</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="pane-total" id="fijosT" style="color:var(--orange)">$0</span>
+            <button class="add-btn" onclick="om('fijo')">+</button>
+          </div>
+        </div>
+        <div class="scroll-list" id="fijosL"></div>
+      </div>
+
+      <!-- INGRESOS -->
+      <div class="tab-pane" id="tab-ingresos">
+        <div class="pane-hdr">
+          <span class="pane-title">Otros Ingresos</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="pane-total" id="ingresosT" style="color:var(--green)">$0</span>
+            <button class="add-btn" onclick="om('ingreso')">+</button>
+          </div>
+        </div>
+        <div class="scroll-list" id="ingresosL"><div class="empty"><span class="empty-ico">💰</span>Sin ingresos registrados</div></div>
+      </div>
+
+      <!-- GASTOS -->
+      <div class="tab-pane" id="tab-gastos">
+        <div class="pane-hdr">
+          <span class="pane-title">Gastos / Salidas</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="pane-total" id="gastosT" style="color:var(--red)">$0</span>
+            <button class="add-btn" onclick="om('gasto')">+</button>
+          </div>
+        </div>
+        <div class="scroll-list" id="gastosL"><div class="empty"><span class="empty-ico">💸</span>Sin gastos registrados</div></div>
+      </div>
+
+      <!-- PRESTAMOS -->
+      <div class="tab-pane" id="tab-prestamos">
+        <div class="pane-hdr">
+          <span class="pane-title">Préstamos</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="pane-total" id="prestamosT" style="color:var(--purple)">$0</span>
+            <button class="add-btn" onclick="om('prestamo')">+</button>
+          </div>
+        </div>
+        <div class="scroll-list" id="prestamosL"></div>
+        <div class="pane-bot" id="prestamosFooter"></div>
+      </div>
+
+      <!-- TRADING -->
+      <div class="tab-pane" id="tab-trading">
+        <div class="pane-hdr">
+          <span class="pane-title">Retiro Trading del Mes</span>
+          <button class="edit-btn" onclick="om('trading')">✏ Editar</button>
+        </div>
+        <div id="tradingBlock"></div>
+      </div>
+
+      <!-- CIERRE -->
+      <div class="tab-pane" id="tab-cierre">
+        <div class="pane-hdr">
+          <span class="pane-title">Cierre de Mes</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="cierreStatusBadge" class="badge bw">Sin cierre formal</span>
+            <button class="edit-btn" id="btnCerrarMes" onclick="finEjecutarCierre()" style="background:linear-gradient(135deg,rgba(96,165,250,0.15),rgba(192,132,252,0.15));border-color:rgba(96,165,250,0.3);color:var(--blue)">🔒 Cerrar Mes</button>
+          </div>
+        </div>
+        <div class="cierre-pane" id="cierrePaneContent"></div>
+      </div>
+
+      <!-- GRÁFICO -->
+      <div class="tab-pane" id="tab-grafico">
+        <div class="pane-hdr">
+          <span class="pane-title">Distribución del mes</span>
+        </div>
+        <div class="chart-pane" id="chartPane"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="mhdr">
+      <div class="mtitle" id="mtitle">Agregar</div>
+      <button class="mclose" onclick="finCloseModal()">×</button>
+    </div>
+    <div class="mbody" id="mbody"></div>
+    <div class="mfoot">
+      <button class="bsec" onclick="finCloseModal()">Cancelar</button>
+      <button class="bprim" onclick="saveModal()">Guardar</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="fin-toast"></div>
 </div>
 
 </main>
@@ -1735,691 +2289,4 @@ function renderCapital(){
   const tDep=movimientos.filter(m=>m.tipo==='deposito').reduce((s,m)=>s+m.monto,0);
   const pnlT=trades.filter(t=>t.resultado).reduce((s,t)=>s+(t.resultado==='Loss'?-(t.ganancia||0):(t.ganancia||0)),0);
   document.getElementById('capital-summary-cards').innerHTML=`
-    <div class="card accent"><div class="card-label">Capital Actual</div><div class="card-value">$${capitalActual.toLocaleString()}</div><div class="card-sub" style="margin-top:6px"><button class="btn btn-ghost" style="font-size:10px;padding:3px 9px" onclick="openCapitalEditModal()">✏️ Modificar</button></div></div>
-    <div class="card orange"><div class="card-label">Total Retirado</div><div class="card-value">$${tRet.toFixed(2)}</div><div class="card-sub">${movimientos.filter(m=>m.tipo==='retiro').length} retiro(s)</div></div>
-    <div class="card green"><div class="card-label">Total Depositado</div><div class="card-value">$${tDep.toFixed(2)}</div><div class="card-sub">${movimientos.filter(m=>m.tipo==='deposito').length} depósito(s)</div></div>
-    <div class="card ${pnlT>=0?'green':'red'}"><div class="card-label">PnL Operaciones</div><div class="card-value">${pnlT>=0?'+':''}$${Math.abs(pnlT).toFixed(2)}</div><div class="card-sub">Ganancia neta trades</div></div>
-  `;
-
-  if(charts.capEv)charts.capEv.destroy();
-
-  // Build clean dataset: sort movements by date, add current capital as last point
-  const sorted=[...movimientos].sort((a,b)=>a.fecha>b.fecha?1:-1);
-  const evData=[];
-  sorted.forEach(m=>evData.push({x:m.fecha,y:m.capitalPost,tipo:m.tipo}));
-  // Add current capital only if different from last point or no movements
-  const lastVal=evData.length?evData[evData.length-1].y:null;
-  const today=new Date().toISOString().split('T')[0];
-  if(lastVal===null||lastVal!==capitalActual){
-    evData.push({x:today,y:capitalActual,tipo:'actual'});
-  }
-
-  const pointColors=evData.map(d=>d.tipo==='retiro'?'#ff7043':d.tipo==='deposito'?'#00d4ff':'#ffd740');
-  const pointSizes=evData.map(d=>d.tipo==='actual'?7:8);
-
-  // Calculate y-axis range with padding
-  const yVals=evData.map(d=>d.y);
-  const yMin=Math.min(...yVals);
-  const yMax=Math.max(...yVals);
-  const yPad=(yMax-yMin)*0.25||yMax*0.05||100;
-
-  charts.capEv=new Chart(document.getElementById('chart-capital-ev').getContext('2d'),{
-    type:'line',
-    data:{datasets:[{
-      label:'Capital ($)',
-      data:evData.map(d=>({x:d.x,y:d.y})),
-      borderColor:'#ffd740',
-      backgroundColor:'rgba(255,215,64,0.06)',
-      fill:true,
-      tension:0,
-      pointRadius:pointSizes,
-      pointHoverRadius:10,
-      pointBackgroundColor:pointColors,
-      pointBorderColor:'#0a0d12',
-      pointBorderWidth:2,
-      borderWidth:2,
-    }]},
-    options:{
-      responsive:true,
-      parsing:{xAxisKey:'x',yAxisKey:'y'},
-      plugins:{
-        legend:{labels:{color:'#8a9bb0',font:{family:'Space Grotesk'}}},
-        tooltip:{
-          callbacks:{
-            label:ctx=>`Capital: $${ctx.parsed.y.toLocaleString('en-US',{minimumFractionDigits:2})}`,
-            title:ctx=>ctx[0].label,
-          },
-          backgroundColor:'#1c2534',
-          borderColor:'#2a3a4d',
-          borderWidth:1,
-          titleColor:'#8a9bb0',
-          bodyColor:'#ffd740',
-          padding:10,
-        }
-      },
-      scales:{
-        x:{
-          grid:{color:'#1e2d3d'},
-          ticks:{color:'#8a9bb0',maxRotation:30,font:{size:11}},
-          border:{color:'#1e2d3d'},
-        },
-        y:{
-          min: Math.max(0, yMin - yPad),
-          max: yMax + yPad,
-          grid:{color:'#1e2d3d'},
-          ticks:{color:'#8a9bb0',callback:v=>`$${v.toLocaleString()}`,font:{size:11}},
-          border:{color:'#1e2d3d'},
-        }
-      }
-    }
-  });
-
-  const tl=document.getElementById('capital-timeline');
-  if(!movimientos.length){tl.innerHTML=`<div class="empty-state"><div class="icon">💰</div><h3>Sin movimientos</h3><p>Registra retiros o depósitos para llevar el historial completo</p></div>`;return;}
-  tl.innerHTML=[...movimientos].reverse().map(m=>{
-    const isR=m.tipo==='retiro';
-    return `<div class="ct-event">
-      <div class="ct-icon" style="background:${isR?'rgba(255,152,0,.12)':'rgba(0,212,255,.1)'}">${isR?'💸':'💰'}</div>
-      <div class="ct-body">
-        <div class="ct-title">${isR?'Retiro':'Depósito'} <span class="badge ${isR?'badge-retiro':'badge-deposito'}">${m.tipo}</span></div>
-        <div class="ct-date">${fmtDateLabel(m.fecha)}${m.notas?` · <span style="color:var(--text2)">${m.notas}</span>`:''}</div>
-      </div>
-      <div style="text-align:right;flex-shrink:0">
-        <div class="ct-amount" style="color:${isR?'var(--orange)':'var(--accent)'}">${isR?'-':'+'}$${m.monto.toFixed(2)}</div>
-        <div class="ct-balance">Capital post: $${m.capitalPost.toLocaleString()}</div>
-        <button class="action-btn" onclick="deleteMovimiento('${m.id}')" style="margin-top:3px" title="Eliminar">🗑️</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ===================== INVERSIONES =====================
-function setPreset(val,btn){document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('inv-slider').value=val;updateSlider(val);}
-function updateSlider(val){currentPct=parseFloat(val);document.getElementById('slider-val').textContent=`${currentPct.toFixed(1)}%`;document.getElementById('inv-col-custom').textContent=`Retiro ${currentPct.toFixed(1)}%`;renderInversiones(currentPct);}
-function renderInversiones(pct){
-  let html='';
-  for(let dep=100;dep<=5000;dep+=100){
-    const c=dep*12;
-    html+=`<tr ${dep===100?'style="background:rgba(0,212,255,.05)"':''}>
-      <td class="mono">$${dep.toLocaleString()}.00</td>
-      <td class="mono" style="color:var(--accent)">$${c.toLocaleString()}.00</td>
-      <td class="mono">$${(c*.07).toFixed(2)}</td>
-      <td class="mono" style="color:var(--gold)">$${(c*(pct/100)).toFixed(2)}</td>
-      <td class="mono">$${(c*.12).toFixed(2)}</td>
-      <td style="color:var(--green);font-weight:600;font-family:'JetBrains Mono'">120%</td>
-    </tr>`;
-  }
-  document.getElementById('inv-body').innerHTML=html;
-}
-
-// ===================== NAV =====================
-const NAV=['dashboard','journal','mensual','semanas','capital','inversiones','tracker'];
-function showSection(name){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('sec-'+name).classList.add('active');
-  const i=NAV.indexOf(name);if(i>=0)document.querySelectorAll('.nav-btn')[i].classList.add('active');
-}
-
-// ===================== UTILS =====================
-function getISOWeek(date){
-  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
-  const dn=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-dn);
-  const ys=new Date(Date.UTC(d.getUTCFullYear(),0,1));
-  return Math.ceil((((d-ys)/86400000)+1)/7);
-}
-function getMonthOfWeek(year,week){
-  const jan4=new Date(Date.UTC(year,0,4));
-  const dow=jan4.getUTCDay()||7;
-  const thu=new Date(jan4.getTime()+((week-1)*7-(dow-4))*86400000);
-  return `${thu.getUTCFullYear()}-${String(thu.getUTCMonth()+1).padStart(2,'0')}`;
-}
-function fmtMes(ym){
-  if(!ym)return'';
-  const[y,m]=ym.split('-');
-  const M=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  return `${M[parseInt(m)-1]} ${y}`;
-}
-function fmtDateLabel(fecha){
-  if(!fecha)return'';
-  return new Date(fecha+'T00:00:00').toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-}
-function fmtPrice(activo,val){
-  if(val===null||val===undefined||val==='')return'—';
-  return parseFloat(val).toFixed(ACTIVO_CFG[activo]?.dec??2);
-}
-function showToast(msg){
-  const t=document.createElement('div');t.className='toast';t.innerHTML=msg;
-  document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
-}
-document.querySelectorAll('.modal-overlay').forEach(o=>{
-  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
-});
-
-
-// ===================== BACKUP / RESTORE =====================
-async function exportData(){
-  const profile=getActiveProfile();
-  const backup={
-    version:3,
-    exportDate:new Date().toISOString(),
-    profile:profile,
-    trades:    await dbAll('trades'),
-    capitales: await dbAll('capitales'),
-    cierres:   await dbAll('cierres'),
-    movimientos: await dbAll('movimientos'),
-    config:    await dbAll('config'),
-  };
-  const json=JSON.stringify(backup,null,2);
-  const blob=new Blob([json],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  const fecha=new Date().toISOString().split('T')[0];
-  a.href=url;
-  a.download=`tradedesk_${profile.name.replace(/\s+/g,'_')}_${fecha}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast(`📤 Backup exportado: ${backup.trades.length} trades, ${backup.cierres.length} cierres`);
-}
-
-function importData(event){
-  const file=event.target.files[0];
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=async e=>{
-    try{
-      const backup=JSON.parse(e.target.result);
-      if(!backup.trades && !backup.version){showToast('⚠️ Archivo no válido');return;}
-
-      const profile=getActiveProfile();
-      const tradesCount=backup.trades?.length||0;
-      const cierresCount=backup.cierres?.length||0;
-
-      if(!confirm(`¿Importar backup al perfil "${profile.name}"?\n\n• ${tradesCount} trades\n• ${cierresCount} cierres de mes\n\n⚠️ Esto REEMPLAZA todos los datos actuales de este perfil.`)){
-        event.target.value=''; return;
-      }
-
-      // Clear all stores first
-      for(const store of ['trades','capitales','cierres','movimientos','config']){
-        await clearStore(store);
-      }
-
-      // Re-insert all data (strip IDs from autoIncrement stores so they don't conflict)
-      for(const t of (backup.trades||[])){
-        const {id,...rest}=t; await dbPut('trades',rest);
-      }
-      for(const c of (backup.capitales||[])) await dbPut('capitales',c);
-      for(const c of (backup.cierres||[])) await dbPut('cierres',c);
-      for(const m of (backup.movimientos||[])){
-        const {id,...rest}=m; await dbPut('movimientos',rest);
-      }
-      for(const c of (backup.config||[])) await dbPut('config',c);
-
-      await loadData();
-      showToast(`✅ Importado: ${tradesCount} trades · ${cierresCount} cierres`);
-    } catch(err){
-      showToast('⚠️ Error al leer el archivo: '+err.message);
-    }
-    event.target.value='';
-  };
-  reader.readAsText(file);
-}
-
-
-
-async function resetAllData(){
-  const profile=getActiveProfile();
-  if(!confirm(`⚠️ ¿Resetear TODOS los datos del perfil "${profile.name}"?\n\nEsto borrará permanentemente:\n• Todos los trades\n• Todas las semanas\n• Todos los cierres de mes\n• Todo el historial de capital\n\nEsta acción NO se puede deshacer.`)) return;
-  for(const store of ['trades','capitales','cierres','movimientos','config']){
-    await clearStore(store);
-  }
-  capitalActual=1200;
-  await loadData();
-  showToast('🗑️ Perfil reseteado completamente');
-}
-
-// ===================== INIT =====================
-updateProfileIndicator();
-// Close profile modal on overlay click
-document.getElementById('profile-modal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('profile-modal'))
-    document.getElementById('profile-modal').classList.remove('open');
-});
-
-// Expose all functions used in HTML onclick attributes to window (required for type="module")
-Object.assign(window,{
-  showSection, openProfileModal, switchProfile, createProfile, deleteProfile,
-  openTradeModal, closeModal, saveTrade, deleteTrade, toggleGanancia, calcLotaje, calcWinAuto,
-  openSemanaModal, saveCapital,
-  openCierreModal, saveCierre,
-  openMovimientoModal, saveMovimiento, deleteMovimiento,
-  openCapitalEditModal, saveCapitalActual,
-  renderJournal, sortTable, clearFilters,
-  exportData, importData, resetAllData,
-  setPreset, updateSlider,
-  renderInversiones,
-  selectMonth, renderCharts, renderDashboard,
-});
-
-// Show loading state while Firebase initializes
-showToast('🔄 Conectando a la nube...');
-loadData().then(()=>{
-  showToast('✅ Datos cargados desde la nube');
-}).catch(err=>{
-  showToast('⚠️ Error conectando: '+err.message);
-  console.error(err);
-});
-</script>
-<!-- ========== TRADING TRACKER JS (namespaced as window.TT) ========== -->
-<script>
-(function(){
-'use strict';
-
-const MULT=12;
-const COLS=[
-  {key:'c033',own:'c',title:'Isaacs / Saenz',sub:'Camilo 0.33%',pctC:0.0033},
-  {key:'c05', own:'c',title:'Beto',          sub:'Camilo 0.5%', pctC:0.005},
-  {key:'c10', own:'c',title:'Beto',          sub:'Camilo 1.0%', pctC:0.010},
-  {key:'p10', own:'p',title:'Papá',          sub:'Todos — 1.0%',pctC:0},
-];
-
-let periodos=[];
-
-function newPeriodo(capC,capP){
-  const id='p'+Date.now();
-  const rows={};COLS.forEach(c=>rows[c.key]=[]);
-  return{id,capC:capC||1000,capP:capP||100,rows};
-}
-
-function fmt(n){const s='$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});return n<0?'-'+s:s;}
-function cc(n){return n>0?'tt-cpos':n<0?'tt-cneg':'tt-cneu';}
-function splitPL(col,pl,capC,capP){
-  const aC=capC*MULT,aP=capP*MULT;
-  if(col.own==='p')return{cPL:0,pPL:pl};
-  const mC=aC*col.pctC,mP=aP*0.01,tot=mC+mP;
-  if(tot===0)return{cPL:pl,pPL:0};
-  return{cPL:pl*(mC/tot),pPL:pl*(mP/tot)};
-}
-function colTot(rows,key){return(rows[key]||[]).reduce((s,r)=>s+(parseFloat(r.gp)||0),0);}
-
-function save(){
-  const doSave = () => {
-    if(window._ttSave){
-      window._ttSave(periodos).catch(e=>console.warn('Tracker save error:',e));
-    } else {
-      localStorage.setItem('tt_v2', JSON.stringify(periodos));
-    }
-  };
-  // If module not ready yet, retry after 500ms
-  if(!window._ttSave) setTimeout(doSave, 500);
-  else doSave();
-
-  const t=document.getElementById('tt-toast');
-  t.classList.add('on');clearTimeout(t._tt);t._tt=setTimeout(()=>t.classList.remove('on'),1600);
-}
-
-function load(){
-  if(!periodos.length) periodos=[newPeriodo(1000,100)];
-}
-
-async function loadFromFirebase(){
-  // Wait up to 5s for the module to expose _ttLoad
-  let attempts = 0;
-  while(!window._ttLoad && attempts < 50){
-    await new Promise(r=>setTimeout(r,100));
-    attempts++;
-  }
-  if(window._ttLoad){
-    try{
-      const data = await window._ttLoad();
-      if(data && data.length){ periodos = data; return; }
-      periodos = [newPeriodo(1000,100)];
-      return;
-    }catch(e){
-      console.warn('Tracker load error:', e);
-    }
-  }
-  // Fallback localStorage
-  const d = localStorage.getItem('tt_v2');
-  if(d){ try{ periodos=JSON.parse(d); }catch(e){ periodos=[]; } }
-  if(!periodos.length) periodos=[newPeriodo(1000,100)];
-}
-function clearAll(){
-  if(!confirm('¿Limpiar todos los períodos del mes?'))return;
-  periodos=[newPeriodo(1000,100)];save();renderAll();
-}
-
-function renderAll(){
-  updateMonthBadge();
-  renderPeriodos();
-  renderSum();
-}
-
-function renderPeriodos(){
-  const cont=document.getElementById('tt-periodos-container');
-  cont.innerHTML='';
-  periodos.forEach((per,idx)=>{
-    const aC=per.capC*MULT,aP=per.capP*MULT,tot=aC+aP;
-    const div=document.createElement('div');
-    div.className='tt-periodo';div.id='tt-per-'+per.id;
-
-    const canDelete=periodos.length>1;
-    div.innerHTML=`
-      ${idx>0?'<div class="tt-periodo-divider"></div>':''}
-      <div class="tt-periodo-header">
-        <div class="tt-periodo-label">
-          <div class="tt-periodo-num">${idx+1}</div>
-          <span class="tt-periodo-title">Período ${idx+1}${idx===0?' — inicial':' — nuevo capital'}</span>
-        </div>
-        ${canDelete?`<button class="tt-del-periodo-btn" onclick="TT.delPeriodo('${per.id}')">✕ Eliminar período</button>`:''}
-      </div>
-      <div class="tt-cap-bar" id="tt-capbar-${per.id}">
-        <div class="tt-cg">
-          <div class="tt-clbl"><span class="tt-dot tt-dot-b"></span>Camilo (capital real)</div>
-          <div class="tt-crow"><span class="tt-csign">$</span>
-            <input class="tt-cinput" type="number" id="tt-capc-${per.id}" value="${per.capC}" min="1"
-              oninput="TT.updCap('${per.id}','capC',this.value)">
-          </div>
-          <div class="tt-csub" id="tt-subc-${per.id}">× 12 = $${aC.toLocaleString('en-US')} amplificado</div>
-        </div>
-        <div class="tt-sep"></div>
-        <div class="tt-cg">
-          <div class="tt-clbl"><span class="tt-dot tt-dot-p"></span>Papá (capital real)</div>
-          <div class="tt-crow"><span class="tt-csign">$</span>
-            <input class="tt-cinput" type="number" id="tt-capp-${per.id}" value="${per.capP}" min="1"
-              oninput="TT.updCap('${per.id}','capP',this.value)">
-          </div>
-          <div class="tt-csub" id="tt-subp-${per.id}">× 12 = $${aP.toLocaleString('en-US')} amplificado</div>
-        </div>
-        <div class="tt-sep"></div>
-        <div class="tt-pct-row">
-          <div class="tt-pb"><div class="tt-pv tt-cb" id="tt-pctc-${per.id}">${(aC/tot*100).toFixed(2)}%</div><div class="tt-pl">Camilo</div></div>
-          <div style="width:1px;height:28px;background:var(--border)"></div>
-          <div class="tt-pb"><div class="tt-pv tt-cp2" id="tt-pctp-${per.id}">${(aP/tot*100).toFixed(2)}%</div><div class="tt-pl">Papá</div></div>
-          <div style="width:1px;height:28px;background:var(--border)"></div>
-          <div class="tt-pb"><div class="tt-pv tt-cneu" id="tt-tota-${per.id}">$${tot.toLocaleString('en-US')}</div><div class="tt-pl">Total cuenta</div></div>
-        </div>
-      </div>
-      <div class="tt-rgrid" id="tt-rgrid-${per.id}"></div>
-    `;
-    cont.appendChild(div);
-    renderCols(per.id);
-  });
-}
-
-function renderCols(pid){
-  const per=periodos.find(p=>p.id===pid);if(!per)return;
-  const aC=per.capC*MULT,aP=per.capP*MULT;
-  const g=document.getElementById('tt-rgrid-'+pid);if(!g)return;
-  g.innerHTML='';
-  COLS.forEach(col=>{
-    const mC=col.own==='p'?0:aC*col.pctC;
-    const mP=aP*0.01;const tot=mC+mP;
-    const pl=colTot(per.rows,col.key);
-    const{cPL,pPL}=splitPL(col,pl,per.capC,per.capP);
-    const pC=tot>0?mC/tot:0,pP=tot>0?mP/tot:1;
-    const accent=col.own==='p'?'#ce93d8':'var(--accent)';
-    const entLbl=col.own==='p'
-      ?`Papá 1% = $${mP.toFixed(0)}`
-      :`Camilo ${(col.pctC*100).toFixed(2)}% = $${mC.toFixed(0)} · Papá 1% = $${mP.toFixed(0)}`;
-
-    const d=document.createElement('div');d.className='tt-col-card';
-    d.innerHTML=`
-      <div class="tt-col-hdr" style="border-top:2px solid ${accent}">
-        <div class="tt-col-title">${col.title}</div>
-        <div class="tt-col-sub">${col.sub}</div>
-        <div class="tt-col-ent">${entLbl}</div>
-      </div>
-      <div class="tt-tdf-bar">
-        <span class="tt-tdf-lbl">Total dinero final</span>
-        <span class="tt-tdf-val ${cc(pl)}" id="tt-tdf-${pid}-${col.key}">${fmt(pl)}</span>
-      </div>
-      <div class="tt-spl-bar">
-        <div class="tt-spl-item">
-          <div class="tt-spl-lbl">Camilo (${(pC*100).toFixed(1)}%)</div>
-          <div class="tt-spl-val ${cc(cPL)}" id="tt-sc-${pid}-${col.key}">${fmt(cPL)}</div>
-        </div>
-        <div class="tt-spl-item">
-          <div class="tt-spl-lbl">Papá (${(pP*100).toFixed(1)}%)</div>
-          <div class="tt-spl-val ${cc(pPL)}" id="tt-sp-${pid}-${col.key}">${fmt(pPL)}</div>
-        </div>
-      </div>
-      <div class="tt-tbl-wrap">
-        <table class="tt-otbl">
-          <thead><tr>
-            <th style="width:34%">Fecha</th>
-            <th style="width:26%">$ Entrada</th>
-            <th style="width:40%">G / P</th>
-          </tr></thead>
-          <tbody id="tt-tb-${pid}-${col.key}"></tbody>
-        </table>
-      </div>
-      <button class="tt-add-btn" onclick="TT.addRow('${pid}','${col.key}')">+ Añadir operación</button>
-    `;
-    g.appendChild(d);
-    renderRows(pid,col.key);
-  });
-}
-
-function renderRows(pid,ckey){
-  const per=periodos.find(p=>p.id===pid);if(!per)return;
-  const tb=document.getElementById('tt-tb-'+pid+'-'+ckey);if(!tb)return;
-  tb.innerHTML='';
-  (per.rows[ckey]||[]).forEach((row,i)=>{
-    const v=parseFloat(row.gp);
-    const gc=isNaN(v)||v===0?'':v>0?'tt-cp':'tt-cn';
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td><input type="date" value="${row.date||''}"
-        oninput="TT.updRow('${pid}','${ckey}',${i},'date',this.value)"
-        style="width:100%;min-width:0"></td>
-      <td><input type="number" placeholder="—" value="${row.entrada||''}"
-        oninput="TT.updRow('${pid}','${ckey}',${i},'entrada',this.value)"></td>
-      <td class="${gc}" id="tt-gc-${pid}-${ckey}-${i}">
-        <input type="number" placeholder="0" value="${row.gp||''}"
-          oninput="TT.updRow('${pid}','${ckey}',${i},'gp',this.value)" style="color:inherit">
-      </td>
-    `;
-    tb.appendChild(tr);
-  });
-}
-
-function updRow(pid,ckey,i,f,v){
-  const per=periodos.find(p=>p.id===pid);if(!per)return;
-  if(!per.rows[ckey])per.rows[ckey]=[];
-  per.rows[ckey][i][f]=v;
-  if(f==='gp'){
-    const n=parseFloat(v);
-    const cell=document.getElementById('tt-gc-'+pid+'-'+ckey+'-'+i);
-    if(cell)cell.className=isNaN(n)||n===0?'':n>0?'tt-cp':'tt-cn';
-    updColTots(pid,ckey);
-    renderSum();
-  }
-  save();
-}
-
-function addRow(pid,ckey){
-  const per=periodos.find(p=>p.id===pid);if(!per)return;
-  if(!per.rows[ckey])per.rows[ckey]=[];
-  per.rows[ckey].push({date:'',entrada:'',gp:''});
-  renderRows(pid,ckey);save();
-}
-
-function updColTots(pid,ckey){
-  const per=periodos.find(p=>p.id===pid);if(!per)return;
-  const col=COLS.find(c=>c.key===ckey);
-  const pl=colTot(per.rows,ckey);
-  const{cPL,pPL}=splitPL(col,pl,per.capC,per.capP);
-  const aC=per.capC*MULT,aP=per.capP*MULT;
-  const mC=col.own==='p'?0:aC*col.pctC,mP=aP*0.01,tot=mC+mP;
-  const pC=tot>0?mC/tot:0,pP=tot>0?mP/tot:1;
-  const t=document.getElementById('tt-tdf-'+pid+'-'+ckey);
-  const sc=document.getElementById('tt-sc-'+pid+'-'+ckey);
-  const sp=document.getElementById('tt-sp-'+pid+'-'+ckey);
-  if(t){t.textContent=fmt(pl);t.className='tt-tdf-val '+cc(pl);}
-  if(sc){sc.textContent=fmt(cPL);sc.className='tt-spl-val '+cc(cPL);}
-  if(sp){sp.textContent=fmt(pPL);sp.className='tt-spl-val '+cc(pPL);}
-}
-
-function updCap(pid,field,val){
-  const per=periodos.find(p=>p.id===pid);if(!per)return;
-  per[field]=parseFloat(val)||1;
-  const aC=per.capC*MULT,aP=per.capP*MULT,tot=aC+aP;
-  document.getElementById('tt-subc-'+pid).textContent='× 12 = $'+aC.toLocaleString('en-US')+' amplificado';
-  document.getElementById('tt-subp-'+pid).textContent='× 12 = $'+aP.toLocaleString('en-US')+' amplificado';
-  document.getElementById('tt-pctc-'+pid).textContent=(aC/tot*100).toFixed(2)+'%';
-  document.getElementById('tt-pctp-'+pid).textContent=(aP/tot*100).toFixed(2)+'%';
-  document.getElementById('tt-tota-'+pid).textContent='$'+tot.toLocaleString('en-US');
-  renderCols(pid);
-  renderSum();
-  save();
-}
-
-function addPeriodo(){
-  const last=periodos.length ? periodos[periodos.length-1] : null;
-  periodos.push(newPeriodo(last?last.capC:1000, last?last.capP:100));
-  save();renderAll();
-  setTimeout(()=>document.getElementById('sec-tracker').scrollTop=99999,100);
-}
-
-function delPeriodo(pid){
-  if(!confirm('¿Eliminar este período y todas sus operaciones?'))return;
-  periodos=periodos.filter(p=>p.id!==pid);
-  save();renderAll();
-}
-
-function renderSum(){
-  const sg=document.getElementById('tt-sgrid');if(!sg)return;
-  sg.innerHTML='';
-  let grandC=0,grandP=0;
-
-  COLS.forEach(col=>{
-    let colTotal=0,colC=0,colP=0,colOps=0;
-    const periodBreakdown=[];
-
-    periodos.forEach((per,idx)=>{
-      const pl=colTot(per.rows,col.key);
-      const{cPL,pPL}=splitPL(col,pl,per.capC,per.capP);
-      const ops=(per.rows[col.key]||[]).filter(r=>r.gp!==''&&!isNaN(parseFloat(r.gp))).length;
-      colTotal+=pl;colC+=cPL;colP+=pPL;colOps+=ops;
-      if(ops>0||pl!==0)periodBreakdown.push({idx:idx+1,pl,ops});
-    });
-
-    grandC+=colC;grandP+=colP;
-
-    const per0=periodos[0];
-    const aC=per0.capC*MULT,aP=per0.capP*MULT;
-    const mC=col.own==='p'?0:aC*col.pctC,mP=aP*0.01,tot=mC+mP;
-    const pC=tot>0?mC/tot:0,pP=tot>0?mP/tot:1;
-    const accent=col.own==='p'?'#ce93d8':'var(--accent)';
-
-    const breakdownHTML=periodBreakdown.map(b=>`
-      <div class="tt-speriod-row">
-        <span class="tt-speriod-lbl">Período ${b.idx} (${b.ops} ops)</span>
-        <span class="tt-speriod-v ${cc(b.pl)}">${fmt(b.pl)}</span>
-      </div>
-    `).join('');
-
-    const d=document.createElement('div');d.className='tt-scard';
-    d.innerHTML=`
-      <div class="tt-scard-hdr" style="border-top:2px solid ${accent}">
-        <div class="tt-scard-title">${col.title}</div>
-        <div class="tt-scard-sub">${col.sub}</div>
-      </div>
-      <div class="tt-stot-row">
-        <span class="tt-stot-lbl">Total (${colOps} ops)</span>
-        <span class="tt-stot-val ${cc(colTotal)}">${fmt(colTotal)}</span>
-      </div>
-      <div class="tt-srows">
-        <div class="tt-srow"><span class="tt-srow-l">Camilo</span><span class="tt-srow-v ${cc(colC)}">${fmt(colC)}</span></div>
-        <div class="tt-srow"><span class="tt-srow-l">Papá</span><span class="tt-srow-v ${cc(colP)}">${fmt(colP)}</span></div>
-      </div>
-      ${periodBreakdown.length>1?`<div class="tt-speriod-list">${breakdownHTML}</div>`:''}
-    `;
-    sg.appendChild(d);
-  });
-
-  const fc=document.getElementById('tt-finc');
-  if(fc){fc.textContent=fmt(grandC);fc.className='tt-fin-amt '+cc(grandC);}
-  const fp=document.getElementById('tt-finp');
-  if(fp){fp.textContent=fmt(grandP);fp.className='tt-fin-amt '+cc(grandP);}
-
-  const last=periodos[periodos.length-1];
-  const lastAC=last.capC*MULT,lastAP=last.capP*MULT;
-  const fcs=document.getElementById('tt-fincsub');
-  const fps=document.getElementById('tt-finpsub');
-  if(fcs)fcs.textContent='Base amplificada actual: $'+lastAC.toLocaleString('en-US');
-  if(fps)fps.textContent='Base amplificada actual: $'+lastAP.toLocaleString('en-US');
-
-  document.getElementById('tt-balbadge').textContent='Mes: '+fmt(grandC+grandP);
-}
-
-function sw(id,btn){
-  document.querySelectorAll('#sec-tracker .tt-tab-pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('#sec-tracker .tt-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tt-tab-'+id).classList.add('active');btn.classList.add('active');
-  if(id==='resumen')renderSum();
-}
-
-function sendSum(){
-  let msg='Resumen del mes por trader:\n\n';
-  let gC=0,gP=0;
-  COLS.forEach(col=>{
-    let colTotal=0,colOps=0,colC=0,colP=0;
-    periodos.forEach(per=>{
-      const pl=colTot(per.rows,col.key);
-      const{cPL,pPL}=splitPL(col,pl,per.capC,per.capP);
-      const ops=(per.rows[col.key]||[]).filter(r=>r.gp!==''&&!isNaN(parseFloat(r.gp))).length;
-      colTotal+=pl;colOps+=ops;colC+=cPL;colP+=pPL;
-    });
-    gC+=colC;gP+=colP;
-    msg+=`${col.title} (${col.sub}): ${fmt(colTotal)} en ${colOps} ops\n`;
-    msg+=`  → Camilo: ${fmt(colC)} · Papá: ${fmt(colP)}\n`;
-  });
-  msg+=`\nTotal Camilo: ${fmt(gC)}\nTotal Papá: ${fmt(gP)}`;
-  if(typeof sendPrompt==='function')sendPrompt(msg);else alert(msg);
-}
-
-function updateMonthBadge(){
-  const now=new Date();
-  const ms=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const el=document.getElementById('tt-mbadge');
-  if(el)el.textContent=ms[now.getMonth()]+' '+now.getFullYear();
-}
-
-// Expose public API
-window.TT={
-  clearAll,addPeriodo,delPeriodo,
-  updCap,addRow,updRow,
-  sw,sendSum,
-  init:async function(){
-    console.log('[Tracker] init called, _ttLoad available:', !!window._ttLoad);
-    await loadFromFirebase();
-    if(!periodos.length) periodos=[newPeriodo(1000,100)];
-    console.log('[Tracker] loaded periodos:', periodos.length);
-    renderAll();
-  }
-};
-
-})();
-
-// Init Tracker on page load (always, regardless of which section is active)
-// Also re-init when navigating to tracker section after a profile switch
-(function(){
-  let ttInit=false;
-
-  // Always init on page load after a short delay to let Firebase module load
-  setTimeout(()=>{
-    if(!ttInit){ ttInit=true; window.TT.init(); }
-  }, 1500);
-
-  // Also re-init when navigating to tracker
-  const origShow=window.showSection;
-  window.showSection=function(name){
-    origShow(name);
-    if(name==='tracker'&&!ttInit){ ttInit=true; window.TT.init(); }
-  };
-})();
-</script>
-</body>
-</html>
+    <div class="card accent"><div class="card-l
