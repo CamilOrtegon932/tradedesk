@@ -7,18 +7,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
+  /* ── DARK (default) ── */
   --bg:#0a0d12; --bg2:#0f1318; --bg3:#151b24; --bg4:#1c2534;
   --border:#1e2d3d; --border2:#2a3a4d;
   --accent:#00d4ff; --accent2:#0099cc;
   --green:#00e676; --red:#ff5252; --gold:#ffd740; --orange:#ff9800;
   --text:#e8f0fe; --text2:#8a9bb0; --text3:#556270;
   --win-bg:rgba(0,230,118,0.07); --loss-bg:rgba(255,82,82,0.07); --be-bg:rgba(255,215,64,0.07);
+  /* header bg */
+  --header-bg:rgba(10,13,18,0.96);
+  /* chart tooltip bg */
+  --tooltip-bg:#1c2534;
+  /* chart point border */
+  --point-border:#0a0d12;
+  /* modal overlay */
+  --overlay-bg:rgba(0,0,0,0.7);
+  /* profile box */
+  --profile-bg:#0f1318;
+  /* Finanzas section vars */
+  --fin-bg:#08080d;
+  --fin-g1:#0e0e18; --fin-g2:#13131f; --fin-g3:#1a1a28; --fin-g4:#222233;
+  --fin-b1:rgba(255,255,255,0.07); --fin-b2:rgba(255,255,255,0.12); --fin-b3:rgba(255,255,255,0.18);
+  --fin-t1:#ffffff; --fin-t2:rgba(255,255,255,0.55); --fin-t3:rgba(255,255,255,0.28);
+  --fin-green:#4ade80; --fin-red:#f87171; --fin-yellow:#fbbf24;
+  --fin-blue:#60a5fa; --fin-purple:#c084fc; --fin-orange:#fb923c; --fin-teal:#2dd4bf;
+  --fin-toast-bg:rgba(20,20,32,0.95);
+  --fin-modal-bg:#13131f;
+  --fin-overlay-bg:rgba(0,0,0,0.7);
+}
+
+/* ── LIGHT MODE ── */
+[data-theme="light"] {
+  --bg:#f0f4f8; --bg2:#ffffff; --bg3:#e4eaf2; --bg4:#d5dfe9;
+  --border:#c5d0dc; --border2:#adbccc;
+  --accent:#0088bb; --accent2:#006699;
+  --green:#00875a; --red:#d32f2f; --gold:#b07800; --orange:#c84b00;
+  --text:#0d1b2a; --text2:#3d5166; --text3:#6b8299;
+  --win-bg:rgba(0,135,90,0.08); --loss-bg:rgba(211,47,47,0.08); --be-bg:rgba(176,120,0,0.09);
+  --header-bg:rgba(240,244,248,0.97);
+  --tooltip-bg:#1c2534;
+  --point-border:#e0e8f0;
+  --overlay-bg:rgba(100,130,160,0.5);
+  --profile-bg:#ffffff;
+  /* Finanzas light */
+  --fin-bg:#f0f4f8;
+  --fin-g1:#ffffff; --fin-g2:#f4f7fb; --fin-g3:#e8eef5; --fin-g4:#dce5ee;
+  --fin-b1:rgba(0,0,0,0.06); --fin-b2:rgba(0,0,0,0.10); --fin-b3:rgba(0,0,0,0.15);
+  --fin-t1:#0d1b2a; --fin-t2:rgba(13,27,42,0.6); --fin-t3:rgba(13,27,42,0.38);
+  --fin-green:#00875a; --fin-red:#d32f2f; --fin-yellow:#b07800;
+  --fin-blue:#0077cc; --fin-purple:#7c3aed; --fin-orange:#c84b00; --fin-teal:#0d7d6b;
+  --fin-toast-bg:rgba(255,255,255,0.97);
+  --fin-modal-bg:#ffffff;
+  --fin-overlay-bg:rgba(100,130,160,0.5);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(0,212,255,0.05) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(0,153,204,0.03) 0%,transparent 50%);pointer-events:none;z-index:0;}
 /* HEADER */
-header{position:sticky;top:0;z-index:100;background:rgba(10,13,18,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px;}
+header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px;transition:background .3s;}
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
 .logo-text{font-size:17px;font-weight:700;letter-spacing:-.5px;}
@@ -39,7 +85,7 @@ main{position:relative;z-index:1;padding:22px 24px;max-width:1640px;margin:0 aut
 .section{display:none;}
 .section.active{display:block;}
 /* CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:20px;}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:border-color .2s,transform .2s;}
 .card:hover{border-color:var(--border2);transform:translateY(-1px);}
 .card .card-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:7px;}
@@ -106,7 +152,7 @@ td{padding:10px 13px;font-size:12px;white-space:nowrap;}
 .action-btn.edit:hover{color:var(--accent);background:rgba(0,212,255,.1);}
 .week-separator td{padding:6px 13px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);background:var(--bg3);border-bottom:1px solid var(--border2);}
 /* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:var(--overlay-bg);backdrop-filter:blur(10px);align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;width:90%;max-width:680px;max-height:92vh;overflow-y:auto;padding:26px;animation:modalIn .22s ease;}
 @keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
@@ -206,9 +252,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 .profile-btn:hover{border-color:var(--accent);color:var(--accent);}
 
 /* PROFILE MODAL */
-.profile-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);align-items:center;justify-content:center;}
+.profile-overlay{display:none;position:fixed;inset:0;z-index:2000;background:var(--overlay-bg);backdrop-filter:blur(12px);align-items:center;justify-content:center;}
 .profile-overlay.open{display:flex;}
-.profile-box{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;width:90%;max-width:480px;padding:32px;animation:modalIn .22s ease;}
+.profile-box{background:var(--profile-bg);border:1px solid var(--border2);border-radius:18px;width:90%;max-width:480px;padding:32px;animation:modalIn .22s ease;}
 .profile-box h2{font-size:20px;font-weight:700;margin-bottom:6px;}
 .profile-box p{font-size:13px;color:var(--text3);margin-bottom:24px;}
 .profile-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
@@ -245,29 +291,22 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 @media(max-width:768px){
   header{padding:0 12px;height:auto;flex-wrap:wrap;gap:4px;padding-top:8px;padding-bottom:8px;}
   .logo{order:1;flex-shrink:0;}
-  .header-right{order:2;gap:6px;flex-wrap:nowrap;justify-content:flex-end;flex-shrink:0;}
+  .header-right{order:2;gap:8px;flex-wrap:nowrap;justify-content:flex-end;flex-shrink:0;}
   nav{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap;gap:2px;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-  nav::-webkit-scrollbar{display:none;}
+  nav::-webkit-scrollbar{height:2px;}
+  nav::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
   .nav-btn{white-space:nowrap;font-size:11px;padding:5px 10px;flex-shrink:0;}
   .header-stat{display:none;}
   .capital-chip .cc-lbl{display:none;}
-  .profile-btn{font-size:11px;padding:4px 8px;}
-  main{padding:10px 8px;}
-  .cards-grid{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
-  .card{padding:12px 14px;border-radius:10px;}
-  .card-label{font-size:9px;letter-spacing:0.5px;margin-bottom:4px;}
-  .card-value{font-size:20px;}
-  .card-sub{font-size:10px;}
+  .profile-btn{display:none;}
+  main{padding:12px;}
+  .cards-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
   .traders-grid{grid-template-columns:1fr 1fr;gap:8px;}
-  .trader-card{padding:12px;}
-  .trader-name{font-size:13px;}
-  .trader-stats{gap:8px;}
   .donut-grid{grid-template-columns:1fr;gap:10px;}
-  .chart-wrap{padding:14px;}
   .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   table{min-width:680px;}
   .filters{flex-wrap:wrap;gap:5px;}
-  .filter-select,.filter-input{font-size:12px;padding:6px 8px;}
+  .filter-select,.filter-input{font-size:11px;padding:6px 8px;}
   .btn{font-size:12px;padding:7px 13px;}
   .btn-group{flex-wrap:wrap;}
   .table-header{flex-direction:column;align-items:flex-start;gap:8px;}
@@ -280,46 +319,29 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   .invest-controls{flex-direction:column;align-items:flex-start;}
   .fab{bottom:16px;right:16px;width:46px;height:46px;font-size:20px;}
   .chart-title{flex-direction:column;align-items:flex-start!important;gap:6px;}
-  .card .card-value{font-size:20px;}
-  .section-header{flex-direction:column;align-items:flex-start;gap:8px;}
+  .card .card-value{font-size:17px;}
+  .donut-grid .chart-wrap{padding:14px;}
 }
-@media(max-width:420px){
-  .cards-grid{grid-template-columns:repeat(2,1fr);gap:6px;}
-  .card{padding:10px 12px;}
-  .card-value{font-size:17px;}
+@media(max-width:480px){
+  .cards-grid{grid-template-columns:1fr;}
   .traders-grid{grid-template-columns:1fr;}
   .report-grid{grid-template-columns:1fr;}
   .form-grid.three{grid-template-columns:1fr;}
-  header{padding:6px 8px;}
+  header{padding:6px 10px;}
   .logo-text{font-size:14px;}
   .capital-chip .cc-val{font-size:12px;}
-  main{padding:8px 6px;}
 }
 
 /* ===== FINANZAS (scoped) ===== */
 
 #sec-finanzas {
-  --bg: #08080d;
-  --g1: #0e0e18;
-  --g2: #13131f;
-  --g3: #1a1a28;
-  --g4: #222233;
-  --b1: rgba(255,255,255,0.07);
-  --b2: rgba(255,255,255,0.12);
-  --b3: rgba(255,255,255,0.18);
-  --t1: #ffffff;
-  --t2: rgba(255,255,255,0.55);
-  --t3: rgba(255,255,255,0.28);
-  --green: #4ade80;
-  --red: #f87171;
-  --yellow: #fbbf24;
-  --blue: #60a5fa;
-  --purple: #c084fc;
-  --orange: #fb923c;
-  --teal: #2dd4bf;
-  --rad: 18px;
-  --rad-s: 10px;
-  --rad-xs: 7px;
+  --bg: var(--fin-bg);
+  --g1: var(--fin-g1); --g2: var(--fin-g2); --g3: var(--fin-g3); --g4: var(--fin-g4);
+  --b1: var(--fin-b1); --b2: var(--fin-b2); --b3: var(--fin-b3);
+  --t1: var(--fin-t1); --t2: var(--fin-t2); --t3: var(--fin-t3);
+  --green: var(--fin-green); --red: var(--fin-red); --yellow: var(--fin-yellow);
+  --blue: var(--fin-blue); --purple: var(--fin-purple); --orange: var(--fin-orange); --teal: var(--fin-teal);
+  --rad: 18px; --rad-s: 10px; --rad-xs: 7px;
 }
 *, *::before, *::after { box-sizing: border-box; }
 #sec-finanzas {
@@ -342,7 +364,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 /* ── HEADER ── */
 #sec-finanzas .hdr {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(8,8,13,0.75);
+  background: var(--fin-overlay-bg);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border-bottom: 1px solid var(--b1);
@@ -381,41 +403,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 
 /* ── SUMBAR ── */
 #sec-finanzas .sumbar { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
-@media(max-width:900px){ #sec-finanzas .sumbar { grid-template-columns: repeat(3,1fr); } }
-@media(max-width:600px){
-  #sec-finanzas .sumbar { grid-template-columns: repeat(2,1fr); gap: 8px; }
-  #sec-finanzas .main { padding: 12px 10px; gap: 12px; }
-  #sec-finanzas .sc { padding: 12px 14px; border-radius: 14px; }
-  #sec-finanzas .sc-label { font-size: 9px; letter-spacing: 0.5px; }
-  #sec-finanzas .sc-val { font-size: 18px; }
-  #sec-finanzas .sc-sub { font-size: 10px; }
-  /* Tabs — scroll horizontal en móvil */
-  #sec-finanzas .tabs-nav { gap: 2px; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; display: flex; }
-  #sec-finanzas .tabs-nav::-webkit-scrollbar { display: none; }
-  #sec-finanzas .tab-btn { white-space: nowrap; font-size: 11px; padding: 6px 10px; flex-shrink: 0; }
-  /* Listas */
-  #sec-finanzas .repa-hdr { flex-direction: column; align-items: flex-start; gap: 6px; }
-  #sec-finanzas .repa-hdr-right { width: 100%; justify-content: space-between; }
-  #sec-finanzas .repa-item { padding: 10px 12px; }
-  #sec-finanzas .repa-item-main { flex-direction: column; align-items: flex-start; gap: 4px; }
-  #sec-finanzas .repa-amount { font-size: 15px; }
-  /* Pagos fijos */
-  #sec-finanzas .fi-item { padding: 10px 12px; gap: 8px; }
-  #sec-finanzas .fi-name { font-size: 13px; }
-  #sec-finanzas .fi-monto { font-size: 13px; }
-  /* Ingresos/gastos */
-  #sec-finanzas .tx-item { padding: 10px 12px; }
-  #sec-finanzas .tx-row { flex-wrap: wrap; gap: 4px; }
-  /* Cierre */
-  #sec-finanzas .ci-grid { grid-template-columns: 1fr; }
-  #sec-finanzas .ci-kpi { padding: 12px; }
-  /* Chart */
-  #sec-finanzas .chart-box { padding: 12px; }
-  /* Modal */
-  #sec-finanzas .overlay .modal { width: 96%; padding: 16px; }
-  #sec-finanzas .mbody input,
-  #sec-finanzas .mbody select { font-size: 16px; } /* evita zoom en iOS */
-}
+@media(max-width:900px){ .sumbar { grid-template-columns: repeat(3,1fr); } }
+@media(max-width:500px){ .sumbar { grid-template-columns: repeat(2,1fr); } }
 
 #sec-finanzas .sc {
   background: rgba(255,255,255,0.035);
@@ -668,12 +657,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 }
 #sec-finanzas .overlay.open { opacity: 1; pointer-events: all; }
 #sec-finanzas .modal {
-  background: rgba(20,20,32,0.95);
+  background: var(--fin-modal-bg);
   border: 1px solid var(--b2);
   border-radius: 22px; width: 100%; max-width: 400px; overflow: hidden;
   transform: translateY(16px) scale(0.98);
   transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.3), 0 0 0 1px var(--b1) inset;
 }
 #sec-finanzas .overlay.open .modal { transform: translateY(0) scale(1); }
 #sec-finanzas .mhdr {
@@ -718,11 +707,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 /* ── TOAST ── */
 #sec-finanzas .toast {
   position: fixed; bottom: 22px; right: 22px;
-  background: rgba(20,20,32,0.95); border: 1px solid var(--b2);
+  background: var(--fin-toast-bg); border: 1px solid var(--b2);
   color: var(--t1); padding: 11px 18px; border-radius: var(--rad-s);
   font-size: 12px; font-weight: 700; z-index: 999;
   opacity: 0; transform: translateY(10px); transition: all 0.25s; pointer-events: none;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
 }
 #sec-finanzas .toast.show { opacity: 1; transform: translateY(0); }
 
@@ -1261,6 +1250,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <input type="text" id="new-profile-name" placeholder="Nombre del perfil (ej: Comunidad)" maxlength="30">
     <button class="btn btn-primary" onclick="createProfile()">+ Crear</button>
   </div>
+  <!-- Theme toggle -->
+  <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);">
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px;">Apariencia</div>
+    <button id="theme-toggle-btn" onclick="toggleTheme()" style="width:100%;display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;cursor:pointer;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;transition:all .2s;">
+      <span id="theme-toggle-label">🌙 Modo oscuro</span>
+      <div style="position:relative;width:44px;height:24px;border-radius:12px;background:var(--border2);transition:background .3s;" id="theme-pill">
+        <div id="theme-knob" style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .25s;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>
+      </div>
+    </button>
+  </div>
 </div>
 </div>
 
@@ -1636,19 +1635,6 @@ window._ttLoad = async function(){
     return parsed.length ? parsed : null;
   }
   return null;
-};
-
-// Expose Finanzas Firebase helpers (same pattern as Tracker)
-window._finSave = async function(k, v){
-  const profileId = getActiveProfileId();
-  await setDoc(doc(fsdb, `profiles/${profileId}/finanzas/${k}`), {v: JSON.stringify(v)});
-};
-window._finLoadAll = async function(){
-  const profileId = getActiveProfileId();
-  const snap = await getDocs(collection(fsdb, `profiles/${profileId}/finanzas`));
-  const result = {};
-  snap.docs.forEach(d => { try{ result[d.id] = JSON.parse(d.data().v); }catch{} });
-  return result;
 };
 
 
@@ -2600,6 +2586,24 @@ document.getElementById('profile-modal').addEventListener('click',e=>{
 });
 
 // Expose all functions used in HTML onclick attributes to window (required for type="module")
+// ===================== THEME =====================
+function _applyTheme(light){
+  document.documentElement.setAttribute('data-theme', light?'light':'');
+  const lbl=document.getElementById('theme-toggle-label');
+  const knob=document.getElementById('theme-knob');
+  const pill=document.getElementById('theme-pill');
+  if(lbl) lbl.textContent=light?'☀️ Modo claro':'🌙 Modo oscuro';
+  if(knob) knob.style.transform=light?'translateX(20px)':'translateX(0)';
+  if(pill) pill.style.background=light?'var(--accent)':'var(--border2)';
+}
+function toggleTheme(){
+  const isLight=document.documentElement.getAttribute('data-theme')==='light'?false:true;
+  localStorage.setItem('td_theme',isLight?'light':'dark');
+  _applyTheme(isLight);
+}
+// Apply on load
+if(localStorage.getItem('td_theme')==='light') _applyTheme(true);
+
 Object.assign(window,{
   showSection, openProfileModal, switchProfile, createProfile, deleteProfile,
   openTradeModal, closeModal, saveTrade, deleteTrade, toggleGanancia, calcLotaje, calcWinAuto,
@@ -2612,6 +2616,7 @@ Object.assign(window,{
   setPreset, updateSlider,
   renderInversiones,
   selectMonth, renderCharts, renderDashboard,
+  toggleTheme,
 });
 
 // Show loading state while Firebase initializes
@@ -3050,39 +3055,18 @@ function today(){return new Date().toISOString().split('T')[0];}
 function fd(iso){if(!iso)return'';const[,m,d]=iso.split('-');return`${d}/${m}`;}
 
 // STORAGE
-// STORAGE — Firebase via helpers expuestos por el módulo principal
-const _FC={};
-
-function _finFbSave(k,v){
-  if(window._finSave) window._finSave(k,v).catch(e=>console.warn('Fin save error:',k,e));
-}
-
-async function _finLoadAllData(){
-  if(!window._finLoadAll) return;
-  try{
-    const data = await window._finLoadAll();
-    Object.assign(_FC, data);
-    // Si Firebase vacío, migrar desde localStorage
-    if(!Object.keys(data).length){
-      Object.keys(localStorage).filter(k=>k.startsWith('fin_')).forEach(k=>{
-        try{const v=JSON.parse(localStorage.getItem(k));_FC[k]=v;_finFbSave(k,v);}catch{}
-      });
-    }
-  }catch(e){console.warn('Fin load error:',e);}
-}
-
-function ld(s){const k=`fin_${s}_${mk()}`;return _FC[k]??[];}
-function sd(s,d){const k=`fin_${s}_${mk()}`;_FC[k]=d;_finFbSave(k,d);}
-function lg(k){return _FC[k]??null;}
-function sg(k,v){_FC[k]=v;_finFbSave(k,v);}
+function ld(s){try{const r=localStorage.getItem(`fin_${s}_${mk()}`);return r?JSON.parse(r):[];}catch{return[];}}
+function sd(s,d){localStorage.setItem(`fin_${s}_${mk()}`,JSON.stringify(d));}
+function lg(k){try{const r=localStorage.getItem(k);return r?JSON.parse(r):null;}catch{return null;}}
+function sg(k,v){localStorage.setItem(k,JSON.stringify(v));}
 
 // FIJOS
 function lf(){
   const k=`fin_fijos_${mk()}`;
-  if(_FC[k])return _FC[k];
+  if(localStorage.getItem(k)){try{return JSON.parse(localStorage.getItem(k));}catch{}}
   const prev=new Date(CY,CMO-1,1);
   const pk=`fin_fijos_${prev.getFullYear()}-${String(prev.getMonth()+1).padStart(2,'0')}`;
-  if(_FC[pk]){const c=_FC[pk].map(f=>({...f,pagado:false}));_FC[k]=c;_finFbSave(k,c);return c;}
+  if(localStorage.getItem(pk)){try{const p=JSON.parse(localStorage.getItem(pk));const c=p.map(f=>({...f,pagado:false}));localStorage.setItem(k,JSON.stringify(c));return c;}catch{}}
   const def=[
     {id:uid(),name:'iCloud',monto:10000,pagado:false},
     {id:uid(),name:'Cuota TC',monto:9900,pagado:false},
@@ -3091,14 +3075,16 @@ function lf(){
     {id:uid(),name:'Seguro Moto',monto:75000,pagado:false},
     {id:uid(),name:'Pago Moto',monto:500000,pagado:false},
   ];
-  _FC[k]=def;_finFbSave(k,def);return def;
+  localStorage.setItem(k,JSON.stringify(def));return def;
 }
-function svf(d){const k=`fin_fijos_${mk()}`;_FC[k]=d;_finFbSave(k,d);}
+function svf(d){localStorage.setItem(`fin_fijos_${mk()}`,JSON.stringify(d));}
 
 // PRESTAMOS — almacenamiento global con historial de abonos por mes
 // Estructura: fin_prestamos_global = [{id, nombre, saldoInicial, cuotaMes, fechaCreacion, abonos:[{id,mes,monto,fecha,nota}]}]
-function lpg(){return _FC['fin_prestamos_global']??[];}
-function spg(d){_FC['fin_prestamos_global']=d;_finFbSave('fin_prestamos_global',d);}
+function lpg(){
+  try{const r=localStorage.getItem('fin_prestamos_global');return r?JSON.parse(r):[];}catch{return[];}
+}
+function spg(d){localStorage.setItem('fin_prestamos_global',JSON.stringify(d));}
 function saldoActual(p){const t=(p.abonos||[]).reduce((s,a)=>s+a.monto,0);return Math.max(0,(p.saldoInicial||0)-t);}
 function abonosMes(p){return(p.abonos||[]).filter(a=>a.mes===mk());}
 function abonadoEsteMes(p){return abonosMes(p).reduce((s,a)=>s+a.monto,0);}
@@ -3306,7 +3292,7 @@ function finRenderCierre(){
 }
 
 // INIT
-function _finInit(){const n=new Date();CY=n.getFullYear();CMO=n.getMonth()+1;_finLoadAllData().then(()=>finRender());}
+function _finInit(){const n=new Date();CY=n.getFullYear();CMO=n.getMonth()+1;finRender();}
 function cmo(d){CMO+=d;if(CMO>12){CMO=1;CY++;}if(CMO<1){CMO=12;CY--;}finRender();}
 
 // TABS
