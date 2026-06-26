@@ -705,23 +705,24 @@ body::before {
     <span class="logo-text">Trade<span>Desk</span></span>
   </div>
   <nav>
-    <button class="nav-btn active"  onclick="showSection('dashboard')">Dashboard</button>
-    <button class="nav-btn"         onclick="showSection('journal')">Journal</button>
-    <button class="nav-btn"         onclick="showSection('mensual')">📅 Mensual</button>
-    <button class="nav-btn"         onclick="showSection('semanas')">Semanas</button>
-    <button class="nav-btn"         onclick="showSection('capital')">💰 Capital</button>
-    <button class="nav-btn"         onclick="showSection('inversiones')">Inversiones</button>
-    <button class="nav-btn"         onclick="showSection('tracker')">🔄 Tracker</button>
+    <button class="nav-btn active"  data-section="dashboard">Dashboard</button>
+    <button class="nav-btn"         data-section="journal">Journal</button>
+    <button class="nav-btn"         data-section="mensual">📅 Mensual</button>
+    <button class="nav-btn"         data-section="semanas">Semanas</button>
+    <button class="nav-btn"         data-section="capital">💰 Capital</button>
+    <button class="nav-btn"         data-section="inversiones">Inversiones</button>
+    <button class="nav-btn"         data-section="tracker">🔄 Tracker</button>
+    <button class="nav-btn"         data-section="finanzas">💳 Finanzas</button>
   </nav>
   <div class="header-right">
-    <div class="profile-selector" onclick="openProfileModal()" title="Cambiar perfil">
+    <div class="profile-selector" id="profile-selector-btn" title="Cambiar perfil">
       <div class="profile-dot" id="h-profile-dot" style="background:#00d4ff"></div>
       <div><div class="profile-lbl">Perfil</div><div class="profile-name" id="h-profile-name">Mi Cuenta</div></div>
       <button class="profile-btn">⇄ Cambiar</button>
     </div>
     <div class="header-stat"><div class="val" id="h-winrate" style="color:var(--green)">0%</div><div class="lbl">Win Rate</div></div>
     <div class="header-stat"><div class="val" id="h-trades">0</div><div class="lbl">Trades</div></div>
-    <div class="capital-chip" onclick="openCapitalEditModal()" title="Clic para modificar capital">
+    <div class="capital-chip" id="capital-chip-btn" title="Clic para modificar capital">
       <div><div class="cc-lbl">Capital Actual</div><div class="cc-val" id="h-capital-chip">$1,200</div></div>
       <span style="font-size:11px;color:var(--text3);">✏️</span>
     </div>
@@ -1077,7 +1078,7 @@ body::before {
 
 </main>
 
-<button class="fab" onclick="openTradeModal()" title="Nuevo Trade">＋</button>
+<button class="fab" id="fab-new-trade" title="Nuevo Trade">＋</button>
 
 <!-- ========== MODALES ========== -->
 
@@ -2535,6 +2536,17 @@ async function resetAllData(){
 
 // ===================== INIT =====================
 updateProfileIndicator();
+
+// Nav event delegation — safe because module runs after DOM is ready
+document.querySelectorAll('.nav-btn[data-section]').forEach(btn=>{
+  btn.addEventListener('click',()=>showSection(btn.dataset.section));
+});
+
+// Header button listeners
+document.getElementById('fab-new-trade')?.addEventListener('click',()=>openTradeModal());
+document.getElementById('capital-chip-btn')?.addEventListener('click',()=>openCapitalEditModal());
+document.getElementById('profile-selector-btn')?.addEventListener('click',()=>openProfileModal());
+
 // Close profile modal on overlay click
 document.getElementById('profile-modal').addEventListener('click',e=>{
   if(e.target===document.getElementById('profile-modal'))
