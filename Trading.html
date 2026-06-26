@@ -311,23 +311,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   --rad-s: 10px;
   --rad-xs: 7px;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 14px; -webkit-font-smoothing: antialiased; }
-body {
-  background: var(--bg);
-  color: var(--t1);
+*, *::before, *::after { box-sizing: border-box; }
+#sec-finanzas {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(96,165,250,0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 30% at 80% 80%, rgba(192,132,252,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 60% 40%, rgba(74,222,128,0.04) 0%, transparent 60%);
-  pointer-events: none;
+  color: var(--t1);
 }
 
 #sec-finanzas ::-webkit-scrollbar { width: 3px; height: 3px; }
@@ -2539,7 +2526,10 @@ updateProfileIndicator();
 
 // Nav event delegation — safe because module runs after DOM is ready
 document.querySelectorAll('.nav-btn[data-section]').forEach(btn=>{
-  btn.addEventListener('click',()=>showSection(btn.dataset.section));
+  btn.addEventListener('click',()=>{
+    showSection(btn.dataset.section);
+    if(btn.dataset.section==='finanzas' && window._finInit) window._finInit();
+  });
 });
 
 // Header button listeners
@@ -3565,17 +3555,17 @@ function finToast(msg,err=false){
   el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);
 }
 
-document.getElementById('overlay').addEventListener('click',e=>{if(e.target===document.getElementById('overlay'))finCloseModal();});
+const _finOverlay = document.getElementById('overlay');
+if(_finOverlay) _finOverlay.addEventListener('click',e=>{if(e.target===_finOverlay)finCloseModal();});
 
 
-// Init when section shown
-let _finInited = false;
-const _finOrigShow = window.showSection;
-window.showSection = function(name) {
-  _finOrigShow(name);
-  if(name === 'finanzas') {
-    if(!_finInited){ _finInited=true; _finInit(); }
-    else { finRender(); }
+// Init when section shown — called from main module after it loads
+window._finInit = function(){
+  if(!window._finInited){
+    window._finInited = true;
+    _finInit();
+  } else {
+    finRender();
   }
 };
 
