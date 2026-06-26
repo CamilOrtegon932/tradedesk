@@ -1595,6 +1595,19 @@ window._ttLoad = async function(){
   return null;
 };
 
+// Expose Finanzas Firebase helpers (same pattern as Tracker)
+window._finSave = async function(k, v){
+  const profileId = getActiveProfileId();
+  await setDoc(doc(fsdb, `profiles/${profileId}/finanzas/${k}`), {v: JSON.stringify(v)});
+};
+window._finLoadAll = async function(){
+  const profileId = getActiveProfileId();
+  const snap = await getDocs(collection(fsdb, `profiles/${profileId}/finanzas`));
+  const result = {};
+  snap.docs.forEach(d => { try{ result[d.id] = JSON.parse(d.data().v); }catch{} });
+  return result;
+};
+
 
 let trades=[],capitales=[],cierres=[],movimientos=[],capitalActual=1200;
 let sortColJ='fecha',sortDirJ=-1,selectedMonth=null,charts={},currentPct=7;
@@ -2994,33 +3007,25 @@ function today(){return new Date().toISOString().split('T')[0];}
 function fd(iso){if(!iso)return'';const[,m,d]=iso.split('-');return`${d}/${m}`;}
 
 // STORAGE
-// STORAGE — Firebase-backed con caché en memoria
-const _FC={};// finanzas cache
+// STORAGE — Firebase via helpers expuestos por el módulo principal
+const _FC={};
 
 function _finFbSave(k,v){
-  if(!window._fsdb)return;
-  const pid=window.getActiveProfileId?window.getActiveProfileId():'profile_personal';
-  import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js").then(({doc,setDoc})=>{
-    setDoc(doc(window._fsdb,`profiles/${pid}/finanzas/${k}`),{v:JSON.stringify(v)})
-      .catch(e=>console.warn('Finanzas save error:',k,e));
-  });
+  if(window._finSave) window._finSave(k,v).catch(e=>console.warn('Fin save error:',k,e));
 }
 
-async function _finLoadAll(){
-  if(!window._fsdb)return;
-  const pid=window.getActiveProfileId?window.getActiveProfileId():'profile_personal';
+async function _finLoadAllData(){
+  if(!window._finLoadAll) return;
   try{
-    const {collection,getDocs}=await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js");
-    const snap=await getDocs(collection(window._fsdb,`profiles/${pid}/finanzas`));
-    if(!snap.empty){
-      snap.docs.forEach(d=>{try{_FC[d.id]=JSON.parse(d.data().v);}catch{}});
-    } else {
-      // Migrate from localStorage on first use
+    const data = await window._finLoadAll();
+    Object.assign(_FC, data);
+    // Si Firebase vacío, migrar desde localStorage
+    if(!Object.keys(data).length){
       Object.keys(localStorage).filter(k=>k.startsWith('fin_')).forEach(k=>{
         try{const v=JSON.parse(localStorage.getItem(k));_FC[k]=v;_finFbSave(k,v);}catch{}
       });
     }
-  }catch(e){console.warn('Finanzas load error:',e);}
+  }catch(e){console.warn('Fin load error:',e);}
 }
 
 function ld(s){const k=`fin_${s}_${mk()}`;return _FC[k]??[];}
@@ -3258,7 +3263,7 @@ function finRenderCierre(){
 }
 
 // INIT
-function _finInit(){const n=new Date();CY=n.getFullYear();CMO=n.getMonth()+1;_finLoadAll().then(()=>finRender());}
+function _finInit(){const n=new Date();CY=n.getFullYear();CMO=n.getMonth()+1;_finLoadAllData().then(()=>finRender());}
 function cmo(d){CMO+=d;if(CMO>12){CMO=1;CY++;}if(CMO<1){CMO=12;CY--;}finRender();}
 
 // TABS
