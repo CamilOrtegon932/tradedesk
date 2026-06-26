@@ -371,8 +371,41 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 
 /* ── SUMBAR ── */
 #sec-finanzas .sumbar { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
-@media(max-width:900px){ .sumbar { grid-template-columns: repeat(3,1fr); } }
-@media(max-width:500px){ .sumbar { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:900px){ #sec-finanzas .sumbar { grid-template-columns: repeat(3,1fr); } }
+@media(max-width:600px){
+  #sec-finanzas .sumbar { grid-template-columns: repeat(2,1fr); gap: 8px; }
+  #sec-finanzas .main { padding: 12px 10px; gap: 12px; }
+  #sec-finanzas .sc { padding: 12px 14px; border-radius: 14px; }
+  #sec-finanzas .sc-label { font-size: 9px; letter-spacing: 0.5px; }
+  #sec-finanzas .sc-val { font-size: 18px; }
+  #sec-finanzas .sc-sub { font-size: 10px; }
+  /* Tabs — scroll horizontal en móvil */
+  #sec-finanzas .tabs-nav { gap: 2px; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; display: flex; }
+  #sec-finanzas .tabs-nav::-webkit-scrollbar { display: none; }
+  #sec-finanzas .tab-btn { white-space: nowrap; font-size: 11px; padding: 6px 10px; flex-shrink: 0; }
+  /* Listas */
+  #sec-finanzas .repa-hdr { flex-direction: column; align-items: flex-start; gap: 6px; }
+  #sec-finanzas .repa-hdr-right { width: 100%; justify-content: space-between; }
+  #sec-finanzas .repa-item { padding: 10px 12px; }
+  #sec-finanzas .repa-item-main { flex-direction: column; align-items: flex-start; gap: 4px; }
+  #sec-finanzas .repa-amount { font-size: 15px; }
+  /* Pagos fijos */
+  #sec-finanzas .fi-item { padding: 10px 12px; gap: 8px; }
+  #sec-finanzas .fi-name { font-size: 13px; }
+  #sec-finanzas .fi-monto { font-size: 13px; }
+  /* Ingresos/gastos */
+  #sec-finanzas .tx-item { padding: 10px 12px; }
+  #sec-finanzas .tx-row { flex-wrap: wrap; gap: 4px; }
+  /* Cierre */
+  #sec-finanzas .ci-grid { grid-template-columns: 1fr; }
+  #sec-finanzas .ci-kpi { padding: 12px; }
+  /* Chart */
+  #sec-finanzas .chart-box { padding: 12px; }
+  /* Modal */
+  #sec-finanzas .overlay .modal { width: 96%; padding: 16px; }
+  #sec-finanzas .mbody input,
+  #sec-finanzas .mbody select { font-size: 16px; } /* evita zoom en iOS */
+}
 
 #sec-finanzas .sc {
   background: rgba(255,255,255,0.035);
