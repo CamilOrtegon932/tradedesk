@@ -2993,61 +2993,48 @@ function fmt(n){return '$'+Math.round(n||0).toLocaleString('es-CO');}
 function today(){return new Date().toISOString().split('T')[0];}
 function fd(iso){if(!iso)return'';const[,m,d]=iso.split('-');return`${d}/${m}`;}
 
+// STORAGE
 // STORAGE — Firebase-backed con caché en memoria
-// _finCache guarda todos los datos en RAM; _finSyncKey guarda a Firestore
-const _finCache = {};
+const _FC={};// finanzas cache
 
-function _finFbPath(k){
-  const pid = window.getActiveProfileId ? window.getActiveProfileId() : 'profile_personal';
-  return `profiles/${pid}/finanzas/${k}`;
-}
-
-async function _finSyncKey(k, val){
-  if(!window._fsdb) return;
-  try{
-    const {doc, setDoc} = await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js");
-    await setDoc(doc(window._fsdb, _finFbPath(k)), {v: JSON.stringify(val)});
-  } catch(e){ console.warn('Finanzas save error:', k, e); }
+function _finFbSave(k,v){
+  if(!window._fsdb)return;
+  const pid=window.getActiveProfileId?window.getActiveProfileId():'profile_personal';
+  import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js").then(({doc,setDoc})=>{
+    setDoc(doc(window._fsdb,`profiles/${pid}/finanzas/${k}`),{v:JSON.stringify(v)})
+      .catch(e=>console.warn('Finanzas save error:',k,e));
+  });
 }
 
 async function _finLoadAll(){
-  if(!window._fsdb) return;
+  if(!window._fsdb)return;
+  const pid=window.getActiveProfileId?window.getActiveProfileId():'profile_personal';
   try{
-    const {collection, getDocs} = await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js");
-    const pid = window.getActiveProfileId ? window.getActiveProfileId() : 'profile_personal';
-    const snap = await getDocs(collection(window._fsdb, `profiles/${pid}/finanzas`));
-    snap.docs.forEach(d => {
-      try{ _finCache[d.id] = JSON.parse(d.data().v); } catch{}
-    });
-    // Migrate from localStorage if Firebase is empty and localStorage has data
-    if(snap.empty){
-      const keys = Object.keys(localStorage).filter(k => k.startsWith('fin_'));
-      for(const k of keys){
-        try{
-          const val = JSON.parse(localStorage.getItem(k));
-          _finCache[k] = val;
-          _finSyncKey(k, val);
-        } catch{}
-      }
+    const {collection,getDocs}=await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js");
+    const snap=await getDocs(collection(window._fsdb,`profiles/${pid}/finanzas`));
+    if(!snap.empty){
+      snap.docs.forEach(d=>{try{_FC[d.id]=JSON.parse(d.data().v);}catch{}});
+    } else {
+      // Migrate from localStorage on first use
+      Object.keys(localStorage).filter(k=>k.startsWith('fin_')).forEach(k=>{
+        try{const v=JSON.parse(localStorage.getItem(k));_FC[k]=v;_finFbSave(k,v);}catch{}
+      });
     }
-  } catch(e){ console.warn('Finanzas load error:', e); }
+  }catch(e){console.warn('Finanzas load error:',e);}
 }
 
-// ld/sd: monthly-keyed arrays
-function ld(s){const k=`fin_${s}_${mk()}`;return _finCache[k]??[];}
-function sd(s,d){const k=`fin_${s}_${mk()}`;_finCache[k]=d;_finSyncKey(k,d);}
-
-// lg/sg: arbitrary key
-function lg(k){return _finCache[k]??null;}
-function sg(k,v){_finCache[k]=v;_finSyncKey(k,v);}
+function ld(s){const k=`fin_${s}_${mk()}`;return _FC[k]??[];}
+function sd(s,d){const k=`fin_${s}_${mk()}`;_FC[k]=d;_finFbSave(k,d);}
+function lg(k){return _FC[k]??null;}
+function sg(k,v){_FC[k]=v;_finFbSave(k,v);}
 
 // FIJOS
 function lf(){
   const k=`fin_fijos_${mk()}`;
-  if(_finCache[k]) return _finCache[k];
+  if(_FC[k])return _FC[k];
   const prev=new Date(CY,CMO-1,1);
   const pk=`fin_fijos_${prev.getFullYear()}-${String(prev.getMonth()+1).padStart(2,'0')}`;
-  if(_finCache[pk]){const c=_finCache[pk].map(f=>({...f,pagado:false}));_finCache[k]=c;_finSyncKey(k,c);return c;}
+  if(_FC[pk]){const c=_FC[pk].map(f=>({...f,pagado:false}));_FC[k]=c;_finFbSave(k,c);return c;}
   const def=[
     {id:uid(),name:'iCloud',monto:10000,pagado:false},
     {id:uid(),name:'Cuota TC',monto:9900,pagado:false},
@@ -3056,13 +3043,14 @@ function lf(){
     {id:uid(),name:'Seguro Moto',monto:75000,pagado:false},
     {id:uid(),name:'Pago Moto',monto:500000,pagado:false},
   ];
-  _finCache[k]=def;_finSyncKey(k,def);return def;
+  _FC[k]=def;_finFbSave(k,def);return def;
 }
-function svf(d){const k=`fin_fijos_${mk()}`;_finCache[k]=d;_finSyncKey(k,d);}
+function svf(d){const k=`fin_fijos_${mk()}`;_FC[k]=d;_finFbSave(k,d);}
 
-// PRESTAMOS
-function lpg(){return _finCache['fin_prestamos_global']??[];}
-function spg(d){_finCache['fin_prestamos_global']=d;_finSyncKey('fin_prestamos_global',d);}
+// PRESTAMOS — almacenamiento global con historial de abonos por mes
+// Estructura: fin_prestamos_global = [{id, nombre, saldoInicial, cuotaMes, fechaCreacion, abonos:[{id,mes,monto,fecha,nota}]}]
+function lpg(){return _FC['fin_prestamos_global']??[];}
+function spg(d){_FC['fin_prestamos_global']=d;_finFbSave('fin_prestamos_global',d);}
 function saldoActual(p){const t=(p.abonos||[]).reduce((s,a)=>s+a.monto,0);return Math.max(0,(p.saldoInicial||0)-t);}
 function abonosMes(p){return(p.abonos||[]).filter(a=>a.mes===mk());}
 function abonadoEsteMes(p){return abonosMes(p).reduce((s,a)=>s+a.monto,0);}
@@ -3074,11 +3062,12 @@ function svp(d){spg(d);}
 function lt(){return lg(`fin_trading_${mk()}`)||{retiro:0,nota:''};}
 function svt(d){sg(`fin_trading_${mk()}`,d);}
 
-// CIERRE V2
+// CIERRE V2 — Estado formal por mes
 function lc(){
   const k=`fin_cierre_${mk()}`;
   const saved=lg(k);
   if(saved)return saved;
+  // heredar saldo final del mes anterior como saldo inicial
   const prev=new Date(CY,CMO-1,1);
   const pk=`fin_cierre_${prev.getFullYear()}-${String(prev.getMonth()+1).padStart(2,'0')}`;
   const prevC=lg(pk);
