@@ -437,8 +437,49 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 
 /* ── SUMBAR ── */
 #sec-finanzas .sumbar { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
-@media(max-width:900px){ .sumbar { grid-template-columns: repeat(3,1fr); } }
-@media(max-width:500px){ .sumbar { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:900px){ #sec-finanzas .sumbar { grid-template-columns: repeat(3,1fr); } }
+@media(max-width:600px){
+  /* Layout */
+  #sec-finanzas .main { padding: 12px 10px; gap: 12px; }
+  /* Sumbar — 2 cols */
+  #sec-finanzas .sumbar { grid-template-columns: repeat(2,1fr); gap: 8px; }
+  #sec-finanzas .sc { padding: 13px 14px; border-radius: 14px; }
+  #sec-finanzas .sc-lbl { font-size: 9px; }
+  #sec-finanzas .sc-val { font-size: 17px; }
+  #sec-finanzas .sc-sub { font-size: 10px; margin-top: 3px; }
+  #sec-finanzas .sc-glow { width: 60px; height: 60px; }
+  /* Tabs nav — horizontal scroll */
+  #sec-finanzas .tabs-nav { padding: 0 2px; gap: 1px; }
+  #sec-finanzas .tab-btn { font-size: 10px; padding: 10px 10px; letter-spacing: 0.04em; }
+  /* Pane header */
+  #sec-finanzas .pane-hdr { padding: 12px 14px; }
+  #sec-finanzas .pane-title { font-size: 10px; }
+  #sec-finanzas .pane-total { font-size: 16px; }
+  /* Table */
+  #sec-finanzas .tbl th { padding: 8px 12px; font-size: 9px; }
+  #sec-finanzas .tbl td { padding: 9px 12px; font-size: 12px; }
+  /* Fijos rows */
+  #sec-finanzas .fijo-row { padding: 10px 14px; font-size: 13px; }
+  /* Repa rows */
+  #sec-finanzas .repa-row { padding: 10px 14px; }
+  #sec-finanzas .repa-net { font-size: 15px; }
+  /* Trading block */
+  #sec-finanzas .trading-block { padding: 20px 16px; }
+  #sec-finanzas .trading-val { font-size: 38px; }
+  /* Prestamos */
+  #sec-finanzas .prest-row { padding: 12px 14px; }
+  #sec-finanzas .prest-name { font-size: 13px; }
+  /* Cierre */
+  #sec-finanzas .ci-grid { grid-template-columns: 1fr !important; }
+  #sec-finanzas .ci-kpi { padding: 12px 14px; }
+  /* Modal */
+  #sec-finanzas .overlay .modal { width: 96%; padding: 16px 14px; border-radius: 16px; }
+  #sec-finanzas .mbody input,
+  #sec-finanzas .mbody select,
+  #sec-finanzas .mbody textarea { font-size: 16px; padding: 10px 12px; } /* prevent iOS zoom */
+  /* Scroll list height */
+  #sec-finanzas .scroll-list { max-height: 240px; }
+}
 
 #sec-finanzas .sc {
   background: rgba(255,255,255,0.035);
@@ -515,7 +556,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
   color: var(--t3); padding: 10px 20px; text-align: left;
   border-bottom: 1px solid var(--b1); position: sticky; top: 0;
-  background: rgba(13,13,20,0.95); z-index: 1;
+  background: var(--fin-g2); z-index: 1;
 }
 #sec-finanzas .tbl td { padding: 10px 20px; font-size: 12px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.04); }
 #sec-finanzas .tbl tr:last-child td { border-bottom: none; }
