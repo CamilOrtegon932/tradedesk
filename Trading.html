@@ -3756,7 +3756,22 @@ if(_finOverlay) _finOverlay.addEventListener('click',e=>{if(e.target===_finOverl
 window._finInit = function(){
   if(!window._finInited){
     window._finInited = true;
-    _finInit();
+    const n=new Date(); CY=n.getFullYear(); CMO=n.getMonth()+1;
+    // Load from Firebase then render
+    if(window._finLoadAll){
+      window._finLoadAll().then(function(data){
+        Object.assign(_FC, data);
+        // Migrate from localStorage if Firebase empty
+        if(!Object.keys(data).length){
+          Object.keys(localStorage).filter(function(k){return k.startsWith('fin_');}).forEach(function(k){
+            try{var v=JSON.parse(localStorage.getItem(k));_FC[k]=v;if(window._finSave)window._finSave(k,v);}catch(e){}
+          });
+        }
+        finRender();
+      }).catch(function(e){console.warn('Fin load error:',e);finRender();});
+    } else {
+      finRender();
+    }
   } else {
     finRender();
   }
