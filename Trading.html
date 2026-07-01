@@ -1754,6 +1754,19 @@ window._ttLoad = async function(){
   return null;
 };
 
+// Finanzas Firebase helpers — mismo patrón que Tracker
+window._finSave = async function(k, v){
+  const profileId = getActiveProfileId();
+  await setDoc(doc(fsdb, `profiles/${profileId}/finanzas/${k}`), {v: JSON.stringify(v)});
+};
+window._finLoadAll = async function(){
+  const profileId = getActiveProfileId();
+  const snap = await getDocs(collection(fsdb, `profiles/${profileId}/finanzas`));
+  const result = {};
+  snap.docs.forEach(d => { try{ result[d.id] = JSON.parse(d.data().v); }catch{} });
+  return result;
+};
+
 
 let trades=[],capitales=[],cierres=[],movimientos=[],capitalActual=1200;
 let sortColJ='fecha',sortDirJ=-1,selectedMonth=null,charts={},currentPct=7;
@@ -3172,18 +3185,37 @@ function today(){return new Date().toISOString().split('T')[0];}
 function fd(iso){if(!iso)return'';const[,m,d]=iso.split('-');return`${d}/${m}`;}
 
 // STORAGE
-function ld(s){try{const r=localStorage.getItem(`fin_${s}_${mk()}`);return r?JSON.parse(r):[];}catch{return[];}}
-function sd(s,d){localStorage.setItem(`fin_${s}_${mk()}`,JSON.stringify(d));}
-function lg(k){try{const r=localStorage.getItem(k);return r?JSON.parse(r):null;}catch{return null;}}
-function sg(k,v){localStorage.setItem(k,JSON.stringify(v));}
+// STORAGE — Firebase via window._finSave / window._finLoadAll
+const _FC = {};
+function _fbSave(k, v){
+  if(window._finSave) window._finSave(k, v).catch(e=>console.warn('Fin save:',k,e));
+}
+async function _fbLoadAll(){
+  if(!window._finLoadAll) return;
+  try{
+    const data = await window._finLoadAll();
+    if(Object.keys(data).length){
+      Object.assign(_FC, data);
+    } else {
+      // Primera vez: migrar desde localStorage
+      Object.keys(localStorage).filter(k=>k.startsWith('fin_')).forEach(k=>{
+        try{ const v=JSON.parse(localStorage.getItem(k)); _FC[k]=v; _fbSave(k,v); }catch{}
+      });
+    }
+  }catch(e){ console.warn('Fin load:',e); }
+}
+function ld(s){ const k=`fin_${s}_${mk()}`; return _FC[k]??[]; }
+function sd(s,d){ const k=`fin_${s}_${mk()}`; _FC[k]=d; _fbSave(k,d); }
+function lg(k){ return _FC[k]??null; }
+function sg(k,v){ _FC[k]=v; _fbSave(k,v); }
 
 // FIJOS
 function lf(){
   const k=`fin_fijos_${mk()}`;
-  if(localStorage.getItem(k)){try{return JSON.parse(localStorage.getItem(k));}catch{}}
+  if(_FC[k]) return _FC[k];
   const prev=new Date(CY,CMO-1,1);
   const pk=`fin_fijos_${prev.getFullYear()}-${String(prev.getMonth()+1).padStart(2,'0')}`;
-  if(localStorage.getItem(pk)){try{const p=JSON.parse(localStorage.getItem(pk));const c=p.map(f=>({...f,pagado:false}));localStorage.setItem(k,JSON.stringify(c));return c;}catch{}}
+  if(_FC[pk]){const c=_FC[pk].map(f=>({...f,pagado:false}));_FC[k]=c;_fbSave(k,c);return c;}
   const def=[
     {id:uid(),name:'iCloud',monto:10000,pagado:false},
     {id:uid(),name:'Cuota TC',monto:9900,pagado:false},
@@ -3192,16 +3224,14 @@ function lf(){
     {id:uid(),name:'Seguro Moto',monto:75000,pagado:false},
     {id:uid(),name:'Pago Moto',monto:500000,pagado:false},
   ];
-  localStorage.setItem(k,JSON.stringify(def));return def;
+  _FC[k]=def;_fbSave(k,def);return def;
 }
-function svf(d){localStorage.setItem(`fin_fijos_${mk()}`,JSON.stringify(d));}
+function svf(d){const k=`fin_fijos_${mk()}`;_FC[k]=d;_fbSave(k,d);}
 
 // PRESTAMOS — almacenamiento global con historial de abonos por mes
 // Estructura: fin_prestamos_global = [{id, nombre, saldoInicial, cuotaMes, fechaCreacion, abonos:[{id,mes,monto,fecha,nota}]}]
-function lpg(){
-  try{const r=localStorage.getItem('fin_prestamos_global');return r?JSON.parse(r):[];}catch{return[];}
-}
-function spg(d){localStorage.setItem('fin_prestamos_global',JSON.stringify(d));}
+function lpg(){ return _FC['fin_prestamos_global']??[]; }
+function spg(d){ _FC['fin_prestamos_global']=d; _fbSave('fin_prestamos_global',d); }
 function saldoActual(p){const t=(p.abonos||[]).reduce((s,a)=>s+a.monto,0);return Math.max(0,(p.saldoInicial||0)-t);}
 function abonosMes(p){return(p.abonos||[]).filter(a=>a.mes===mk());}
 function abonadoEsteMes(p){return abonosMes(p).reduce((s,a)=>s+a.monto,0);}
@@ -3409,7 +3439,7 @@ function finRenderCierre(){
 }
 
 // INIT
-function _finInit(){const n=new Date();CY=n.getFullYear();CMO=n.getMonth()+1;finRender();}
+function _finInit(){const n=new Date();CY=n.getFullYear();CMO=n.getMonth()+1;_fbLoadAll().then(()=>finRender());}
 function cmo(d){CMO+=d;if(CMO>12){CMO=1;CY++;}if(CMO<1){CMO=12;CY--;}finRender();}
 
 // TABS
