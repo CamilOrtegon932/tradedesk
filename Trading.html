@@ -2700,7 +2700,11 @@ updateProfileIndicator();
 document.querySelectorAll('.nav-btn[data-section]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     showSection(btn.dataset.section);
-    if(btn.dataset.section==='finanzas' && window._finInit) window._finInit();
+    if(btn.dataset.section==='finanzas'){
+      // _finInit is defined in the Tracker script which runs after this module
+      // Use setTimeout to ensure it's available
+      setTimeout(()=>{ if(window._finInit) window._finInit(); }, 0);
+    }
   });
 });
 
